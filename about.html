@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#00f5ff">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Resume Kombat AI</title>
+  <link rel="stylesheet" href="css/main.css">`n    <link rel="stylesheet" href="css/animations.css">`n    <link rel="stylesheet" href="css/animations.css">`n    <link rel="stylesheet" href="css/animations.css">`n    <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    .about-hero{padding:120px 24px 60px;text-align:center;background:var(--bg-dark);border-bottom:1px solid var(--border-subtle);position:relative;overflow:hidden;}
+    .about-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,136,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,0.02) 1px,transparent 1px);background-size:40px 40px;}
+    .arch-diagram{width:100%;max-width:800px;margin:0 auto;}
+    .arch-layer{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:20px 24px;margin-bottom:12px;display:flex;align-items:center;gap:16px;transition:border-color var(--transition);}
+    .arch-layer:hover{border-color:var(--border-mid);}
+    .arch-layer-icon{font-size:28px;width:44px;flex-shrink:0;text-align:center;}
+    .arch-layer-title{font-family:var(--font-head);font-size:12px;letter-spacing:2px;color:var(--text-primary);margin-bottom:4px;}
+    .arch-layer-desc{font-size:13px;color:var(--text-muted);}
+    .arch-arrow{text-align:center;color:var(--text-muted);font-size:18px;margin:-4px 0;}
+    .faq-item{border-bottom:1px solid var(--border-subtle);padding:20px 0;}
+    .faq-q{font-family:var(--font-head);font-size:13px;letter-spacing:1px;color:var(--text-primary);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+    .faq-q:hover{color:var(--neon-cyan);}
+    .faq-a{font-size:14px;color:var(--text-secondary);line-height:1.7;margin-top:12px;display:none;}
+    .faq-a.open{display:block;}
+    .faq-chevron{font-size:12px;transition:transform var(--transition);flex-shrink:0;}
+    .faq-item.open .faq-chevron{transform:rotate(90deg);}
+    .scoring-table{width:100%;border-collapse:collapse;}
+    .scoring-table th{font-family:var(--font-head);font-size:10px;letter-spacing:2px;color:var(--text-muted);text-align:left;padding:10px 14px;border-bottom:1px solid var(--border-mid);}
+    .scoring-table td{font-size:13px;color:var(--text-secondary);padding:10px 14px;border-bottom:1px solid var(--border-subtle);}
+    .scoring-table tr:hover td{background:rgba(0,245,255,0.02);}
+    .scoring-table .weight{font-family:var(--font-mono);color:var(--neon-cyan);}
+    .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;}
+    .team-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:24px;text-align:center;}
+    .team-avatar{width:60px;height:60px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:24px;}
+    .team-name{font-family:var(--font-head);font-size:12px;letter-spacing:1px;color:var(--text-primary);margin-bottom:4px;}
+    .team-role{font-size:12px;color:var(--text-muted);}
+    .stat-bar-row{display:flex;flex-direction:column;gap:10px;}
+    .highlight-box{background:linear-gradient(135deg,rgba(0,245,255,0.06),rgba(255,0,255,0.04));border:1px solid var(--border-mid);border-radius:var(--radius-md);padding:24px;margin-bottom:24px;}
+    .process-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--border-subtle);border-radius:var(--radius-md);overflow:hidden;}
+    .process-step{background:var(--bg-card);padding:24px;display:flex;flex-direction:column;gap:10px;}
+    .ps-num{font-family:var(--font-mono);font-size:11px;color:var(--neon-cyan);letter-spacing:2px;}
+    .ps-title{font-family:var(--font-head);font-size:12px;letter-spacing:1px;color:var(--text-primary);}
+    .ps-desc{font-size:13px;color:var(--text-muted);line-height:1.5;}
+  </style>
+</head>
+<body>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-rk">RK</span>
+        <span class="logo-text">RESUME<span class="logo-accent">KOMBAT</span></span>
+        <span class="logo-ai">AI</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="battle.html" class="nav-link">Battle</a></li>
+        <li><a href="tournament.html" class="nav-link">Tournament</a></li>
+        <li><a href="analytics.html" class="nav-link">Analytics</a></li>
+        <li><a href="about.html" class="nav-link active">About</a></li>
+      </ul>
+      <a href="battle.html" class="nav-cta"><span>ENTER ARENA</span></a>
+      <button class="nav-burger" id="navBurger"><span></span><span></span><span></span></button>
+    </div>
+    <div class="nav-mobile" id="navMobile">
+      <a href="index.html" class="mob-link">Home</a>
+      <a href="battle.html" class="mob-link">Battle</a>
+      <a href="tournament.html" class="mob-link">Tournament</a>
+      <a href="analytics.html" class="mob-link">Analytics</a>
+      <a href="about.html" class="mob-link">About</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="about-hero">
+    <div style="position:relative;z-index:1;">
+      <div class="section-eyebrow" style="margin-bottom:10px;">ℹ ABOUT</div>
+      <h1 class="section-title" style="margin-bottom:10px;">What is Resume Kombat AI?</h1>
+      <p style="font-size:16px;color:var(--text-secondary);max-width:600px;margin:0 auto;line-height:1.7;">
+        An AI-powered resume comparison and hiring intelligence platform that turns dry candidate evaluation into an immersive, explainable, esports-style experience.
+      </p>
+    </div>
+  </div>
+
+  <div class="about-main">
+
+    <!-- MISSION -->
+    <div class="about-section" id="how">
+      <div class="section-eyebrow">OUR MISSION</div>
+      <p class="about-lead">Hiring decisions matter. We make the analysis transparent, fast, and even entertaining.</p>
+      <p class="about-body">
+        Traditional resume screening is slow, subjective, and opaque. Recruiters spend an average of 7 seconds on a resume before deciding. 
+        Resume Kombat AI uses Claude AI to do what humans can't — evaluate both candidates deeply across every dimension simultaneously, 
+        generate explainable scores with full reasoning, and present the results in a format that actually engages hiring teams.
+      </p>
+      <p class="about-body">
+        Every score has reasoning. No black-box outputs. No "candidate A is better" without showing exactly why.
+        The battle format isn't just fun — it forces AI to reason category by category, making the output more thorough and auditable.
+      </p>
+
+      <div class="highlight-box" style="margin-top:24px;">
+        <div style="font-family:var(--font-head);font-size:10px;letter-spacing:3px;color:var(--neon-cyan);margin-bottom:12px;">KEY PRINCIPLES</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;">
+          <div><div style="font-family:var(--font-head);font-size:12px;color:var(--text-primary);margin-bottom:4px;">Explainable AI</div><div style="font-size:13px;color:var(--text-muted);">Every score has reasoning. No black boxes.</div></div>
+          <div><div style="font-family:var(--font-head);font-size:12px;color:var(--text-primary);margin-bottom:4px;">No Copyrighted IP</div><div style="font-size:13px;color:var(--text-muted);">100% original cyber-arena theme and assets.</div></div>
+          <div><div style="font-family:var(--font-head);font-size:12px;color:var(--text-primary);margin-bottom:4px;">Privacy First</div><div style="font-size:13px;color:var(--text-muted);">Resume text is never stored permanently.</div></div>
+          <div><div style="font-family:var(--font-head);font-size:12px;color:var(--text-primary);margin-bottom:4px;">Recruiter Grade</div><div style="font-size:13px;color:var(--text-muted);">Built on real recruiter evaluation frameworks.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW IT WORKS DEEP DIVE -->
+    <div class="about-section">
+      <div class="section-eyebrow">THE PROCESS</div>
+      <h2 class="section-title" style="font-size:26px;margin-bottom:24px;">How It Works</h2>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="ps-num">01 — PARSE</div>
+          <div class="ps-title">Resume Parsing</div>
+          <div class="ps-desc">PDF/DOCX/TXT files are read client-side. Text is extracted and structured: name, skills, experience, education, projects, certifications, achievements, links.</div>
+        </div>
+        <div class="process-step">
+          <div class="ps-num">02 — ANALYZE</div>
+          <div class="ps-title">AI Analysis</div>
+          <div class="ps-desc">Claude AI receives structured resume content and evaluates both candidates across 6 weighted categories with full contextual reasoning per round.</div>
+        </div>
+        <div class="process-step">
+          <div class="ps-num">03 — BATTLE</div>
+          <div class="ps-title">Battle Engine</div>
+          <div class="ps-desc">Scores feed the animated battle arena. Health bars drain in real time. Special attack combos trigger when elite skill stacks are detected.</div>
+        </div>
+        <div class="process-step">
+          <div class="ps-num">04 — INSIGHT</div>
+          <div class="ps-title">Recruiter Intel</div>
+          <div class="ps-desc">Full dashboard: radar charts, ATS scores, skill gap analysis, JD matching, hire/no-hire recommendation, and personalized improvement plans.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCORING SYSTEM -->
+    <div class="about-section">
+      <div class="section-eyebrow">SCORING METHODOLOGY</div>
+      <h2 class="section-title" style="font-size:26px;margin-bottom:20px;">The Weighted Battle System</h2>
+      <p class="about-body">Scoring weights mirror real-world recruiter priorities for tech roles. Each category is scored 0–100 with AI-generated reasoning before a weighted total is calculated.</p>
+      <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);overflow:hidden;margin-top:16px;">
+        <table class="scoring-table">
+          <thead>
+            <tr>
+              <th>Round</th>
+              <th>Category</th>
+              <th>Weight</th>
+              <th>What's Evaluated</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>R1</td><td>Skills Clash</td><td class="weight">25%</td><td>Technology stack depth, breadth, relevance, modernity</td></tr>
+            <tr><td>R2</td><td>Experience Duel</td><td class="weight">25%</td><td>Years, seniority, company caliber, impact, scale</td></tr>
+            <tr><td>R3</td><td>Project Warfare</td><td class="weight">20%</td><td>Portfolio quality, real-world usage, open source, complexity</td></tr>
+            <tr><td>R4</td><td>Education Arena</td><td class="weight">10%</td><td>Degree level, institution, GPA, relevant coursework</td></tr>
+            <tr><td>R5</td><td>Certification Strike</td><td class="weight">10%</td><td>Industry certifications, recency, relevance, provider prestige</td></tr>
+            <tr><td>R6</td><td>ATS Showdown</td><td class="weight">10%</td><td>Keyword density, formatting, section structure, parsability</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ARCHITECTURE -->
+    <div class="about-section" id="tech">
+      <div class="section-eyebrow">TECHNICAL ARCHITECTURE</div>
+      <h2 class="section-title" style="font-size:26px;margin-bottom:24px;">How It's Built</h2>
+      <div class="arch-diagram">
+        <div class="arch-layer">
+          <div class="arch-layer-icon">🌐</div>
+          <div>
+            <div class="arch-layer-title">FRONTEND — HTML/CSS/JavaScript</div>
+            <div class="arch-layer-desc">Vanilla JS + CSS custom properties. Glassmorphism UI, neon cyberpunk effects, CSS animations. No framework dependencies — loads instantly.</div>
+          </div>
+        </div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer">
+          <div class="arch-layer-icon">🤖</div>
+          <div>
+            <div class="arch-layer-title">AI ENGINE — Claude API (Anthropic)</div>
+            <div class="arch-layer-desc">Direct browser → Anthropic API calls via claude-sonnet-4. Structured JSON output with battle scores, commentary, radar data, and recruiter insights.</div>
+          </div>
+        </div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer">
+          <div class="arch-layer-icon">📊</div>
+          <div>
+            <div class="arch-layer-title">RENDERING ENGINE — SVG + Canvas</div>
+            <div class="arch-layer-desc">All charts (radar, bar, donut, ATS breakdown) rendered with hand-crafted SVG. No chart library dependencies. Fully responsive and animated via CSS transitions.</div>
+          </div>
+        </div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer">
+          <div class="arch-layer-icon">🏟</div>
+          <div>
+            <div class="arch-layer-title">BATTLE ENGINE — State Machine JS</div>
+            <div class="arch-layer-desc">Round-by-round animation loop with HP reduction, special combo detection, countdown overlays, and async round reveals timed with CSS animations.</div>
+          </div>
+        </div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-layer">
+          <div class="arch-layer-icon">🔒</div>
+          <div>
+            <div class="arch-layer-title">PRIVACY — Client-Side Processing</div>
+            <div class="arch-layer-desc">Resume text is processed entirely in the browser. Only the anonymized text slice goes to Claude API. No server. No database. No persistent storage.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TECH STACK -->
+    <div class="about-section">
+      <div class="section-eyebrow">TECH STACK</div>
+      <h2 class="section-title" style="font-size:26px;margin-bottom:20px;">Built With</h2>
+      <div class="tech-grid">
+        <div class="tech-card">
+          <div class="tech-cat">FRONTEND</div>
+          <div class="tech-items">
+            <span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">Vanilla JS</span>
+            <span class="tech-tag">CSS Custom Props</span><span class="tech-tag">SVG</span><span class="tech-tag">CSS Animations</span>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-cat">AI / ML</div>
+          <div class="tech-items">
+            <span class="tech-tag">Claude API</span><span class="tech-tag">claude-sonnet-4</span>
+            <span class="tech-tag">JSON Structured Output</span><span class="tech-tag">Prompt Engineering</span>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-cat">TYPOGRAPHY</div>
+          <div class="tech-items">
+            <span class="tech-tag">Orbitron</span><span class="tech-tag">Rajdhani</span>
+            <span class="tech-tag">Share Tech Mono</span><span class="tech-tag">Google Fonts</span>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-cat">DESIGN SYSTEM</div>
+          <div class="tech-items">
+            <span class="tech-tag">CSS Variables</span><span class="tech-tag">Glassmorphism</span>
+            <span class="tech-tag">Neon Glow Effects</span><span class="tech-tag">Clip-path</span><span class="tech-tag">Backdrop Filter</span>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-cat">CHARTS</div>
+          <div class="tech-items">
+            <span class="tech-tag">Custom SVG Radar</span><span class="tech-tag">SVG Donut</span>
+            <span class="tech-tag">CSS Bar Charts</span><span class="tech-tag">Venn Diagrams</span>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-cat">PLANNED / BACKEND</div>
+          <div class="tech-items">
+            <span class="tech-tag">FastAPI</span><span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">pdfplumber</span><span class="tech-tag">python-docx</span>
+            <span class="tech-tag">spaCy</span><span class="tech-tag">Docker</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPECIAL ATTACKS -->
+    <div class="about-section">
+      <div class="section-eyebrow">SPECIAL ATTACK SYSTEM</div>
+      <h2 class="section-title" style="font-size:26px;margin-bottom:20px;">Combo Moves</h2>
+      <p class="about-body">When AI detects elite skill combinations in a resume, a Special Attack is triggered — extra animation, bonus commentary, and a damage multiplier.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:16px;">
+        <div style="background:var(--bg-card);border:1px solid rgba(255,255,0,0.2);border-radius:var(--radius-md);padding:20px;">
+          <div style="font-size:20px;margin-bottom:8px;">☁</div>
+          <div style="font-family:var(--font-head);font-size:12px;color:var(--neon-yellow);margin-bottom:6px;">CLOUD STRIKE</div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">AWS + Kubernetes + Terraform</div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid rgba(255,255,0,0.2);border-radius:var(--radius-md);padding:20px;">
+          <div style="font-size:20px;margin-bottom:8px;">🔥</div>
+          <div style="font-family:var(--font-head);font-size:12px;color:var(--neon-yellow);margin-bottom:6px;">FULL STACK FURY</div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">React + Node + MongoDB / PostgreSQL</div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid rgba(255,255,0,0.2);border-radius:var(--radius-md);padding:20px;">
+          <div style="font-size:20px;margin-bottom:8px;">🧠</div>
+          <div style="font-family:var(--font-head);font-size:12px;color:var(--neon-yellow);margin-bottom:6px;">AI COMBO</div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">Python + TensorFlow + PyTorch</div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid rgba(255,255,0,0.2);border-radius:var(--radius-md);padding:20px;">
+          <div style="font-size:20px;margin-bottom:8px;">⚙</div>
+          <div style="font-family:var(--font-head);font-size:12px;color:var(--neon-yellow);margin-bottom:6px;">BACKEND BLITZ</div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">Python + Django + PostgreSQL + Docker</div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid rgba(255,255,0,0.2);border-radius:var(--radius-md);padding:20px;">
+          <div style="font-size:20px;margin-bottom:8px;">🛡</div>
+          <div style="font-family:var(--font-head);font-size:12px;color:var(--neon-yellow);margin-bottom:6px;">DATA FORTRESS</div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">Spark + Kafka + BigQuery + Airflow</div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid rgba(255,255,0,0.2);border-radius:var(--radius-md);padding:20px;">
+          <div style="font-size:20px;margin-bottom:8px;">🚀</div>
+          <div style="font-family:var(--font-head);font-size:12px;color:var(--neon-yellow);margin-bottom:6px;">DEVOPS STORM</div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">K8s + Terraform + GitHub Actions + ArgoCD</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="about-section">
+      <div class="section-eyebrow">FAQ</div>
+      <h2 class="section-title" style="font-size:26px;margin-bottom:24px;">Frequently Asked Questions</h2>
+      <div id="faq-list">
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Is my resume data stored or used for training?<span class="faq-chevron">▶</span></div>
+          <div class="faq-a">No. Resume text is processed entirely in your browser and sent only to the Anthropic Claude API for analysis. We don't store resume data on any server. Anthropic's API usage policies apply for the AI inference portion.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">What file formats are supported?<span class="faq-chevron">▶</span></div>
+          <div class="faq-a">Currently TXT files are fully supported in the browser-only version. The planned backend version will support PDF (via pdfplumber), DOCX (via python-docx), and plain text. For best results with the current version, copy-paste your resume content into a .txt file.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">How accurate is the AI scoring?<span class="faq-chevron">▶</span></div>
+          <div class="faq-a">The AI provides relative scoring based on resume content — not absolute truth. It's a decision-support tool, not a replacement for human judgment. Scores reflect what's written in the resume; if a candidate hasn't listed achievements clearly, they'll score lower even if they're excellent in reality. Always use AI output as one signal among many.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Can I use this for actual hiring decisions?<span class="faq-chevron">▶</span></div>
+          <div class="faq-a">Resume Kombat AI is designed to assist and accelerate human hiring decisions, not replace them. Use it to shortlist candidates, identify skill gaps, and structure your evaluation — but always conduct proper interviews and reference checks before making offers.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Does it detect bias or discriminatory patterns?<span class="faq-chevron">▶</span></div>
+          <div class="faq-a">The system scores purely on professional content: skills, experience, projects, education, certifications, and ATS quality. It does not consider name, gender, ethnicity, or personal information. However, all AI systems can have emergent biases — use outputs critically and in combination with diverse human review.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">How does Tournament Mode work?<span class="faq-chevron">▶</span></div>
+          <div class="faq-a">Tournament Mode runs a knockout bracket for 4, 8, or 16 resumes. AI evaluates each matchup independently and advances winners round by round until a champion is crowned. It's ideal for comparing large candidate pools from a hiring campaign.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">What is JD Matching Mode?<span class="faq-chevron">▶</span></div>
+          <div class="faq-a">When you paste a job description, the AI adds keyword matching and semantic alignment to the analysis. Each candidate receives a JD match percentage alongside their standard battle scores, and the recruiter recommendation is tailored to the specific role requirements.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Is Resume Kombat AI free?<span class="faq-chevron">▶</span></div>
+          <div class="faq-a">The current version is a portfolio/demo project. API costs are covered by the Anthropic API key configured at deployment time. A production SaaS version with usage tiers is planned.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROADMAP -->
+    <div class="about-section">
+      <div class="section-eyebrow">ROADMAP</div>
+      <h2 class="section-title" style="font-size:26px;margin-bottom:20px;">What's Coming</h2>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--neon-green);background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);padding:3px 10px;border-radius:2px;white-space:nowrap;">LIVE</div>
+          <div style="font-size:14px;color:var(--text-secondary);">Battle Arena — 6 rounds, health bars, AI commentary, special attacks</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--neon-green);background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);padding:3px 10px;border-radius:2px;white-space:nowrap;">LIVE</div>
+          <div style="font-size:14px;color:var(--text-secondary);">Analytics Dashboard — radar charts, ATS, keyword analysis</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--neon-green);background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);padding:3px 10px;border-radius:2px;white-space:nowrap;">LIVE</div>
+          <div style="font-size:14px;color:var(--text-secondary);">Tournament Mode — 4/8/16 fighter knockouts</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--neon-yellow);background:rgba(255,255,0,0.05);border:1px solid rgba(255,255,0,0.25);padding:3px 10px;border-radius:2px;white-space:nowrap;">SOON</div>
+          <div style="font-size:14px;color:var(--text-secondary);">FastAPI Backend — PDF parsing, PostgreSQL storage, user accounts</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--neon-yellow);background:rgba(255,255,0,0.05);border:1px solid rgba(255,255,0,0.25);padding:3px 10px;border-radius:2px;white-space:nowrap;">SOON</div>
+          <div style="font-size:14px;color:var(--text-secondary);">GitHub Battle Mode — profile analysis, repo stats, contribution graphs</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--neon-orange);background:rgba(255,102,0,0.05);border:1px solid rgba(255,102,0,0.2);padding:3px 10px;border-radius:2px;white-space:nowrap;">PLANNED</div>
+          <div style="font-size:14px;color:var(--text-secondary);">Audio Engine — original battle sounds via Howler.js</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--neon-orange);background:rgba(255,102,0,0.05);border:1px solid rgba(255,102,0,0.2);padding:3px 10px;border-radius:2px;white-space:nowrap;">PLANNED</div>
+          <div style="font-size:14px;color:var(--text-secondary);">LinkedIn Comparison Mode — skills, experience, professional growth analysis</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--neon-violet);background:rgba(170,102,255,0.05);border:1px solid rgba(170,102,255,0.2);padding:3px 10px;border-radius:2px;white-space:nowrap;">FUTURE</div>
+          <div style="font-size:14px;color:var(--text-secondary);">Team Hiring Mode — match a candidate against your existing team's skill matrix</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div style="text-align:center;padding:48px 0;border-top:1px solid var(--border-subtle);margin-top:48px;">
+      <div class="section-eyebrow" style="margin-bottom:12px;">READY TO BATTLE?</div>
+      <h2 class="section-title" style="font-size:28px;margin-bottom:14px;">Try It Now — Free</h2>
+      <p style="font-size:15px;color:var(--text-muted);margin-bottom:28px;">Upload two resumes and get an AI verdict in under 60 seconds.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="battle.html" class="btn-primary"><span class="btn-glow"></span>⚔&nbsp; START BATTLE</a>
+        <a href="tournament.html" class="btn-ghost">🏆 TOURNAMENT MODE</a>
+      </div>
+    </div>
+
+  </div><!-- end about-main -->
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="logo-rk">RK</span>
+          <span class="logo-text">RESUME<span class="logo-accent">KOMBAT</span> AI</span>
+        </div>
+        <p class="footer-desc">AI-powered resume battle platform. Original IP. No copyrighted assets.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <div class="footer-col-title">Product</div>
+          <a href="battle.html" class="footer-link">Battle Arena</a>
+          <a href="tournament.html" class="footer-link">Tournament</a>
+          <a href="analytics.html" class="footer-link">Analytics</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Info</div>
+          <a href="about.html" class="footer-link">About</a>
+          <a href="about.html#how" class="footer-link">How It Works</a>
+          <a href="about.html#tech" class="footer-link">Tech Stack</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Resume Kombat AI — Built with Claude AI</span>
+      <span class="footer-sep">|</span>
+      <span>Original IP. No copyrighted assets.</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    function toggleFaq(el) {
+      const item = el.closest('.faq-item');
+      const answer = item.querySelector('.faq-a');
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-a').classList.remove('open');
+      });
+      if (!wasOpen) {
+        item.classList.add('open');
+        answer.classList.add('open');
+      }
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+

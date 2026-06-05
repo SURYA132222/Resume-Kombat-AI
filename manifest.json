@@ -1,0 +1,20 @@
+{
+  "name": "Resume Kombat AI",
+  "short_name": "RK AI",
+  "description": "AI-powered resume battle platform. Where resumes fight for the job.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#020408",
+  "theme_color": "#00f5ff",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "business"],
+  "screenshots": [],
+  "orientation": "any"
+}

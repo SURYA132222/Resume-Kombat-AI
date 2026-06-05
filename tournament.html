@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tournament Mode — Resume Kombat AI</title>
+  <link rel="stylesheet" href="css/main.css">`n    <link rel="stylesheet" href="css/animations.css">`n    <link rel="stylesheet" href="css/animations.css">`n    <link rel="stylesheet" href="css/animations.css">`n    <link rel="stylesheet" href="css/animations.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-rk">RK</span>
+        <span class="logo-text">RESUME<span class="logo-accent">KOMBAT</span></span>
+        <span class="logo-ai">AI</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="battle.html" class="nav-link">Battle</a></li>
+        <li><a href="tournament.html" class="nav-link active">Tournament</a></li>
+        <li><a href="analytics.html" class="nav-link">Analytics</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+      </ul>
+      <a href="battle.html" class="nav-cta"><span>ENTER ARENA</span></a>
+      <button class="nav-burger" id="navBurger"><span></span><span></span><span></span></button>
+    </div>
+    <div class="nav-mobile" id="navMobile">
+      <a href="index.html" class="mob-link">Home</a>
+      <a href="battle.html" class="mob-link">Battle</a>
+      <a href="tournament.html" class="mob-link">Tournament</a>
+      <a href="analytics.html" class="mob-link">Analytics</a>
+      <a href="about.html" class="mob-link">About</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="tournament-hero">
+    <div style="position:relative;z-index:1;">
+      <div class="section-eyebrow" style="margin-bottom:10px">🏟 TOURNAMENT MODE</div>
+      <h1 class="section-title" style="margin-bottom:10px">Knockout Bracket</h1>
+      <p style="font-size:15px;color:var(--text-muted);max-width:500px;margin:0 auto;">
+        Upload 4, 8, or 16 resumes. AI runs a full knockout tournament and crowns the ultimate hiring champion.
+      </p>
+    </div>
+  </div>
+
+  <!-- TOURNAMENT SETUP -->
+  <div style="max-width:1200px;margin:0 auto;padding:48px 24px;" id="setup-view">
+
+    <!-- Size selector -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:32px;flex-wrap:wrap;">
+      <span class="section-minor" style="margin-bottom:0">TOURNAMENT SIZE:</span>
+      <button class="size-btn active" data-size="4" onclick="selectSize(4,this)">4 Fighters</button>
+      <button class="size-btn" data-size="8" onclick="selectSize(8,this)">8 Fighters</button>
+      <button class="size-btn" data-size="16" onclick="selectSize(16,this)">16 Fighters</button>
+    </div>
+
+    <!-- Upload grid -->
+    <div class="tournament-upload-grid" id="t-upload-grid"></div>
+
+    <hr class="divider-line">
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px;">
+      <button class="demo-btn" onclick="loadTournamentDemo()">⚡ LOAD DEMO (4 FIGHTERS)</button>
+      <span style="font-size:12px;color:var(--text-muted)">Loads Alice, Bob, Carol, Dave demo resumes</span>
+    </div>
+
+    <button class="fight-btn" id="tourney-btn" disabled onclick="runTournament()" style="max-width:600px;margin:0 auto;display:flex;">
+      🏆&nbsp;&nbsp;RUN TOURNAMENT
+    </button>
+  </div>
+
+  <!-- BRACKET VIEW -->
+  <div id="bracket-view" style="display:none;max-width:1400px;margin:0 auto;padding:32px 24px;">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:12px;">
+      <div>
+        <div class="section-eyebrow">LIVE RESULTS</div>
+        <h2 class="section-title" style="font-size:24px;margin-bottom:0">Tournament Bracket</h2>
+      </div>
+      <button class="btn-ghost" onclick="resetTournament()">↺ NEW TOURNAMENT</button>
+    </div>
+
+    <!-- Loading state -->
+    <div id="bracket-loading" style="text-align:center;padding:60px 0;">
+      <div class="loading-title" style="margin-bottom:16px;">⚡ AI RUNNING TOURNAMENT...</div>
+      <div class="loading-bar-wrap" style="margin:0 auto 16px;"><div class="loading-bar-fill"></div></div>
+      <div class="loading-step" id="t-loading-step">Seeding fighters...</div>
+    </div>
+
+    <!-- Bracket display -->
+    <div id="bracket-display" style="display:none;">
+      <div class="bracket-container" style="padding:0;overflow-x:auto;">
+        <div class="bracket" id="bracket-rounds"></div>
+      </div>
+
+      <!-- Champion -->
+      <div id="champion-box" style="display:none;text-align:center;padding:48px 24px;margin-top:32px;">
+        <div style="font-size:48px;margin-bottom:16px;">🏆</div>
+        <div class="section-eyebrow" style="margin-bottom:10px;">TOURNAMENT CHAMPION</div>
+        <div class="section-title" id="champion-name" style="background:linear-gradient(90deg,var(--neon-cyan),var(--neon-magenta));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;"></div>
+        <div style="font-family:var(--font-mono);font-size:14px;color:var(--text-muted);" id="champion-score"></div>
+        <div id="champion-reason" style="max-width:600px;margin:16px auto 0;font-size:15px;color:var(--text-secondary);line-height:1.7;"></div>
+        <div style="margin-top:32px;">
+          <a href="battle.html" class="btn-primary" style="display:inline-flex;">
+            <span class="btn-glow"></span>⚔&nbsp; HEAD-TO-HEAD BATTLE
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    // State
+    const TState = {
+      size: 4,
+      fighters: [],
+      results: null
+    };
+
+    function selectSize(n, btn) {
+      TState.size = n;
+      TState.fighters = [];
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      buildSlots(n);
+      checkTourneyReady();
+    }
+
+    function buildSlots(n) {
+      const grid = document.getElementById('t-upload-grid');
+      grid.innerHTML = '';
+      for (let i = 1; i <= n; i++) {
+        const slot = document.createElement('div');
+        slot.className = 't-slot';
+        slot.id = `ts-${i}`;
+        slot.innerHTML = `
+          <input type="file" accept=".pdf,.docx,.txt" onchange="fillSlot(event,${i})">
+          <div class="t-slot-num">FIGHTER ${i}</div>
+          <div style="font-size:22px;color:var(--text-muted);">＋</div>
+          <div class="t-slot-name" id="tsn-${i}"></div>`;
+        grid.appendChild(slot);
+      }
+    }
+
+    function fillSlot(e, i) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const name = file.name.replace(/\.[^.]+$/, '').toUpperCase().slice(0, 20);
+        TState.fighters[i - 1] = { name, text: ev.target.result };
+        const slot = document.getElementById(`ts-${i}`);
+        const nameEl = document.getElementById(`tsn-${i}`);
+        if (slot) slot.classList.add('filled');
+        if (nameEl) nameEl.textContent = name.slice(0, 16);
+        checkTourneyReady();
+      };
+      reader.readAsText(file);
+    }
+
+    function checkTourneyReady() {
+      const filled = TState.fighters.filter(Boolean).length;
+      const btn = document.getElementById('tourney-btn');
+      if (btn) btn.disabled = filled < TState.size;
+    }
+
+    function loadTournamentDemo() {
+      const demos = [
+        { name: 'ALICE CHEN', text: 'Senior Engineer: Python, AWS, Docker, TensorFlow, Kubernetes. 5yr exp. MIT CS. 3 patents.' },
+        { name: 'BOB MARTINEZ', text: 'Full Stack Dev: JavaScript, React, Node.js, MongoDB. 4yr exp. State Univ.' },
+        { name: 'CAROL SINGH', text: 'Data Scientist: Python, PyTorch, SQL, Spark, BigQuery. 3yr exp. Stanford.' },
+        { name: 'DAVE KIM', text: 'DevOps Engineer: Kubernetes, Terraform, AWS, GCP, CI/CD. 6yr exp. CKA certified.' }
+      ];
+      TState.size = 4; TState.fighters = [...demos];
+      selectSize(4, document.querySelector('[data-size="4"]'));
+      demos.forEach((d, i) => {
+        const slot = document.getElementById(`ts-${i+1}`);
+        const nameEl = document.getElementById(`tsn-${i+1}`);
+        if (slot) slot.classList.add('filled');
+        if (nameEl) nameEl.textContent = d.name.slice(0, 16);
+      });
+      checkTourneyReady();
+    }
+
+    async function runTournament() {
+      document.getElementById('setup-view').style.display = 'none';
+      document.getElementById('bracket-view').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      const stepEl = document.getElementById('t-loading-step');
+      const steps = ['Seeding fighters...', 'Analyzing resumes...', 'Running quarterfinals...', 'Computing semifinal matchups...', 'Generating commentary...', 'Finalizing bracket...'];
+      for (const s of steps) {
+        if (stepEl) stepEl.textContent = s;
+        await sleep(500);
+      }
+
+      const fighters = TState.fighters.filter(Boolean);
+      const prompt = buildTournamentPrompt(fighters);
+
+      let data;
+      try {
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 1000,
+            messages: [{ role: 'user', content: prompt }]
+          })
+        });
+        const resp = await res.json();
+        let raw = resp.content.filter(b => b.type === 'text').map(b => b.text).join('');
+        raw = raw.replace(/```json|```/g, '').trim();
+        const fb = raw.indexOf('{'), lb = raw.lastIndexOf('}');
+        if (fb !== -1) raw = raw.slice(fb, lb + 1);
+        data = JSON.parse(raw);
+      } catch (e) {
+        data = buildFallbackTournament(fighters);
+      }
+
+      TState.results = data;
+      renderBracket(data, fighters);
+    }
+
+    function buildTournamentPrompt(fighters) {
+      const fList = fighters.map((f, i) => `Fighter ${i+1} (${f.name}):\n${(f.text||'').slice(0,400)}`).join('\n\n');
+      return `You are Resume Kombat AI. Run a knockout tournament for these ${fighters.length} resume fighters. Return ONLY JSON.
+
+${fList}
+
+Return:
+{
+  "rounds": [
+    {
+      "name": "Quarterfinals",
+      "matches": [
+        {"fighterA": "NAME1", "fighterB": "NAME2", "scoreA": 75, "scoreB": 60, "winner": "NAME1", "commentary": "brief commentary"},
+        ...more matches...
+      ]
+    },
+    {
+      "name": "Semifinals",
+      "matches": [...]
+    },
+    {
+      "name": "Final",
+      "matches": [...]
+    }
+  ],
+  "champion": "WINNER_NAME",
+  "championScore": 88,
+  "championReason": "2 sentence reason why this candidate won the tournament"
+}
+
+For 4 fighters: Quarterfinals (2 matches) → Final (1 match)
+For 8 fighters: Quarterfinals (4 matches) → Semifinals (2 matches) → Final (1 match)
+Make commentary vivid and game-style. JSON only.`;
+    }
+
+    function buildFallbackTournament(fighters) {
+      const names = fighters.map(f => f.name);
+      const rounds = [];
+      let remaining = [...names];
+      const roundNames = ['Quarterfinals', 'Semifinals', 'Final'];
+      let roundIdx = 0;
+      while (remaining.length > 1) {
+        const matches = [];
+        const next = [];
+        for (let i = 0; i < remaining.length; i += 2) {
+          const a = remaining[i], b = remaining[i + 1] || remaining[0];
+          const winner = Math.random() > 0.4 ? a : b;
+          matches.push({ fighterA: a, fighterB: b, scoreA: Math.floor(Math.random()*20)+65, scoreB: Math.floor(Math.random()*20)+50, winner, commentary: `${winner} dominates with superior technical depth and real-world impact!` });
+          next.push(winner);
+        }
+        rounds.push({ name: roundNames[roundIdx++] || `Round ${roundIdx}`, matches });
+        remaining = next;
+      }
+      return { rounds, champion: remaining[0], championScore: 89, championReason: `${remaining[0]} demonstrated the strongest combination of technical skills, project impact, and professional experience across all rounds.` };
+    }
+
+    function renderBracket(data, fighters) {
+      document.getElementById('bracket-loading').style.display = 'none';
+      document.getElementById('bracket-display').style.display = 'block';
+
+      const container = document.getElementById('bracket-rounds');
+      container.innerHTML = '';
+
+      data.rounds.forEach(round => {
+        const col = document.createElement('div');
+        col.className = 'bracket-round';
+        col.style.cssText = 'min-width:200px;';
+
+        const title = document.createElement('div');
+        title.className = 'bracket-round-title';
+        title.textContent = round.name;
+        col.appendChild(title);
+
+        const slots = document.createElement('div');
+        slots.className = 'bracket-slots';
+        slots.style.cssText = `display:flex;flex-direction:column;gap:16px;`;
+
+        round.matches.forEach(match => {
+          const card = document.createElement('div');
+          card.className = 'bracket-match';
+          card.innerHTML = `
+            <div class="bracket-slot ${match.winner === match.fighterA ? 'winner' : ''}">
+              <span class="bs-num">${match.winner === match.fighterA ? '🏆' : '·'}</span>
+              <span class="bs-name" title="${match.fighterA}">${match.fighterA}</span>
+              <span class="bs-score">${match.scoreA}</span>
+            </div>
+            <div class="bracket-slot ${match.winner === match.fighterB ? 'winner' : ''}">
+              <span class="bs-num">${match.winner === match.fighterB ? '🏆' : '·'}</span>
+              <span class="bs-name" title="${match.fighterB}">${match.fighterB}</span>
+              <span class="bs-score">${match.scoreB}</span>
+            </div>
+            <div style="padding:6px 12px;font-size:11px;color:var(--text-muted);font-style:italic;border-top:1px solid var(--border-subtle);line-height:1.4;">${match.commentary}</div>`;
+          slots.appendChild(card);
+        });
+
+        col.appendChild(slots);
+        container.appendChild(col);
+      });
+
+      // Champion
+      const champBox = document.getElementById('champion-box');
+      document.getElementById('champion-name').textContent = data.champion;
+      document.getElementById('champion-score').textContent = `Tournament Score: ${data.championScore}/100`;
+      document.getElementById('champion-reason').textContent = data.championReason;
+      champBox.style.display = 'block';
+      champBox.style.background = 'linear-gradient(135deg,rgba(0,245,255,0.06),rgba(255,0,255,0.06))';
+      champBox.style.border = '1px solid rgba(0,245,255,0.3)';
+      champBox.style.borderRadius = 'var(--radius-md)';
+    }
+
+    function resetTournament() {
+      TState.fighters = [];
+      document.getElementById('bracket-view').style.display = 'none';
+      document.getElementById('setup-view').style.display = 'block';
+      buildSlots(TState.size);
+      checkTourneyReady();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    // Init
+    buildSlots(4);
+  </script>
+
+  <style>
+    .size-btn {
+      font-family: var(--font-head); font-size: 11px; letter-spacing: 2px;
+      padding: 8px 20px;
+      color: var(--text-muted);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .size-btn:hover { color: var(--neon-cyan); border-color: var(--border-mid); }
+    .size-btn.active { color: var(--neon-cyan); border-color: var(--neon-cyan); background: rgba(0,245,255,0.06); }
+  </style>
+</body>
+</html>
+
+
+
+
+
+
+

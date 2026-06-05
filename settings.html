@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#00f5ff">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — Resume Kombat AI</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    .settings-hero{padding:120px 24px 48px;background:var(--bg-dark);border-bottom:1px solid var(--border-subtle);position:relative;overflow:hidden;}
+    .settings-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(170,102,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(170,102,255,0.025) 1px,transparent 1px);background-size:36px 36px;}
+    .settings-main{max-width:860px;margin:0 auto;padding:48px 24px;}
+    .settings-layout{display:grid;grid-template-columns:200px 1fr;gap:28px;align-items:start;}
+    @media(max-width:640px){.settings-layout{grid-template-columns:1fr;}}
+    .settings-sidebar{position:sticky;top:80px;}
+    .settings-nav-item{display:block;font-family:var(--font-head);font-size:10px;letter-spacing:2px;padding:10px 14px;color:var(--text-muted);border-left:2px solid transparent;transition:all var(--transition);cursor:pointer;margin-bottom:4px;}
+    .settings-nav-item:hover{color:var(--neon-cyan);background:rgba(0,245,255,0.03);}
+    .settings-nav-item.active{color:var(--neon-cyan);border-left-color:var(--neon-cyan);}
+    .settings-section{display:none;flex-direction:column;gap:20px;}
+    .settings-section.active{display:flex;}
+    .settings-group{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);overflow:hidden;}
+    .sg-title{font-family:var(--font-head);font-size:10px;letter-spacing:3px;color:var(--text-muted);padding:14px 20px;border-bottom:1px solid var(--border-subtle);background:var(--bg-card2);}
+    .sg-row{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border-subtle);gap:16px;}
+    .sg-row:last-child{border-bottom:none;}
+    .sg-label{font-size:14px;color:var(--text-secondary);}
+    .sg-desc{font-size:12px;color:var(--text-muted);margin-top:3px;}
+    .sg-control{flex-shrink:0;}
+    .toggle{width:44px;height:24px;border-radius:12px;background:rgba(0,0,0,0.4);border:1px solid var(--border-mid);cursor:pointer;position:relative;transition:background 0.2s;}
+    .toggle.on{background:rgba(0,245,255,0.2);border-color:var(--neon-cyan);}
+    .toggle::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--text-muted);transition:transform 0.2s,background 0.2s;}
+    .toggle.on::after{transform:translateX(20px);background:var(--neon-cyan);}
+    .sg-select{background:var(--bg-card2);border:1px solid var(--border-mid);border-radius:var(--radius-sm);padding:6px 12px;color:var(--text-primary);font-family:var(--font-body);font-size:13px;outline:none;min-width:160px;}
+    .sg-input{background:var(--bg-card2);border:1px solid var(--border-mid);border-radius:var(--radius-sm);padding:7px 12px;color:var(--text-primary);font-family:var(--font-mono);font-size:13px;outline:none;width:220px;}
+    .sg-input:focus,.sg-select:focus{border-color:var(--neon-cyan);}
+    .color-picker{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+    .color-swatch{width:24px;height:24px;border-radius:50%;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;border:2px solid transparent;}
+    .color-swatch:hover{transform:scale(1.2);}
+    .color-swatch.selected{border-color:white;box-shadow:0 0 8px currentColor;}
+    .accent-preview{font-family:var(--font-head);font-size:12px;letter-spacing:2px;padding:6px 14px;border:1px solid currentColor;border-radius:2px;}
+    .save-bar{position:sticky;bottom:0;background:var(--bg-dark);border-top:1px solid var(--border-subtle);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;z-index:10;}
+    .save-status{font-family:var(--font-mono);font-size:12px;color:var(--text-muted);}
+    .danger-zone{border-color:rgba(255,50,50,0.3);}
+    .danger-zone .sg-title{color:#ff5555;}
+    .btn-danger{font-family:var(--font-head);font-size:10px;letter-spacing:2px;padding:7px 16px;color:#ff5555;background:rgba(255,50,50,0.08);border:1px solid rgba(255,50,50,0.3);border-radius:var(--radius-sm);cursor:pointer;transition:all var(--transition);}
+    .btn-danger:hover{background:rgba(255,50,50,0.15);border-color:rgba(255,50,50,0.5);}
+    .api-key-row{display:flex;gap:8px;align-items:center;}
+    .key-status{font-family:var(--font-mono);font-size:11px;padding:3px 10px;border-radius:2px;}
+    .key-set{color:var(--neon-green);background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);}
+    .key-unset{color:var(--neon-orange);background:rgba(255,102,0,0.08);border:1px solid rgba(255,102,0,0.25);}
+    .range-input{width:140px;accent-color:var(--neon-cyan);}
+    .range-val{font-family:var(--font-mono);font-size:12px;color:var(--neon-cyan);min-width:32px;}
+  </style>
+</head>
+<body>
+  <div class="scanlines" id="scanlines-el" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-rk">RK</span>
+        <span class="logo-text">RESUME<span class="logo-accent">KOMBAT</span></span>
+        <span class="logo-ai">AI</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="battle.html" class="nav-link">Battle</a></li>
+        <li><a href="tournament.html" class="nav-link">Tournament</a></li>
+        <li><a href="analytics.html" class="nav-link">Analytics</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+      </ul>
+      <a href="battle.html" class="nav-cta"><span>ENTER ARENA</span></a>
+      <button class="nav-burger" id="navBurger"><span></span><span></span><span></span></button>
+    </div>
+    <div class="nav-mobile" id="navMobile">
+      <a href="index.html" class="mob-link">Home</a>
+      <a href="battle.html" class="mob-link">Battle</a>
+      <a href="tournament.html" class="mob-link">Tournament</a>
+      <a href="analytics.html" class="mob-link">Analytics</a>
+      <a href="about.html" class="mob-link">About</a>
+    </div>
+  </nav>
+
+  <div class="settings-hero">
+    <div style="position:relative;z-index:1;">
+      <div class="section-eyebrow" style="margin-bottom:6px;">⚙ CONFIGURATION</div>
+      <h1 class="section-title" style="font-size:28px;margin-bottom:0;">Settings</h1>
+    </div>
+  </div>
+
+  <div class="settings-main">
+    <div class="settings-layout">
+
+      <!-- Sidebar nav -->
+      <div class="settings-sidebar">
+        <div class="settings-nav-item active" onclick="showSection('appearance')">🎨 Appearance</div>
+        <div class="settings-nav-item" onclick="showSection('battle')">⚔ Battle</div>
+        <div class="settings-nav-item" onclick="showSection('api')">🔑 API Keys</div>
+        <div class="settings-nav-item" onclick="showSection('audio')">🔊 Audio</div>
+        <div class="settings-nav-item" onclick="showSection('data')">💾 Data</div>
+        <div class="settings-nav-item" onclick="showSection('advanced')">🛠 Advanced</div>
+      </div>
+
+      <!-- Content area -->
+      <div>
+
+        <!-- APPEARANCE -->
+        <div class="settings-section active" id="sec-appearance">
+          <div class="settings-group">
+            <div class="sg-title">VISUAL EFFECTS</div>
+            <div class="sg-row">
+              <div><div class="sg-label">Scanline Overlay</div><div class="sg-desc">Classic CRT screen effect</div></div>
+              <div class="toggle on" id="s-scanlines" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Custom Cursor Glow</div><div class="sg-desc">Neon cursor trail</div></div>
+              <div class="toggle on" id="s-cursor" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Particle Effects</div><div class="sg-desc">Floating particles on hero section</div></div>
+              <div class="toggle on" id="s-particles" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Reduced Motion</div><div class="sg-desc">Minimize all animations (accessibility)</div></div>
+              <div class="toggle" id="s-reducemotion" onclick="this.classList.toggle('on');applyReducedMotion();save()"></div>
+            </div>
+          </div>
+          <div class="settings-group">
+            <div class="sg-title">ACCENT COLOR</div>
+            <div class="sg-row">
+              <div><div class="sg-label">Primary Accent</div><div class="sg-desc">Main neon color used throughout</div></div>
+              <div class="color-picker" id="accent-picker">
+                <div class="color-swatch selected" style="background:#00f5ff;" data-color="#00f5ff" onclick="setAccent(this)"></div>
+                <div class="color-swatch" style="background:#00ff88;" data-color="#00ff88" onclick="setAccent(this)"></div>
+                <div class="color-swatch" style="background:#ff00ff;" data-color="#ff00ff" onclick="setAccent(this)"></div>
+                <div class="color-swatch" style="background:#ff6600;" data-color="#ff6600" onclick="setAccent(this)"></div>
+                <div class="color-swatch" style="background:#aa66ff;" data-color="#aa66ff" onclick="setAccent(this)"></div>
+                <div class="color-swatch" style="background:#ffff00;" data-color="#ffff00" onclick="setAccent(this)"></div>
+              </div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Preview</div></div>
+              <div class="accent-preview" id="accent-preview" style="color:#00f5ff;border-color:#00f5ff;">RESUME KOMBAT</div>
+            </div>
+          </div>
+          <div class="settings-group">
+            <div class="sg-title">LAYOUT</div>
+            <div class="sg-row">
+              <div><div class="sg-label">Compact Mode</div><div class="sg-desc">Reduce padding and spacing</div></div>
+              <div class="toggle" id="s-compact" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Wide Cards</div><div class="sg-desc">Full-width dashboard cards</div></div>
+              <div class="toggle" id="s-wide" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BATTLE -->
+        <div class="settings-section" id="sec-battle">
+          <div class="settings-group">
+            <div class="sg-title">BATTLE ENGINE</div>
+            <div class="sg-row">
+              <div><div class="sg-label">Default Battle Mode</div></div>
+              <select class="sg-select" id="s-battle-mode" onchange="save()">
+                <option value="standard">Standard Battle</option>
+                <option value="jd">JD Matching Mode</option>
+                <option value="github">GitHub Battle</option>
+              </select>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Auto-advance Rounds</div><div class="sg-desc">Animate rounds automatically</div></div>
+              <div class="toggle on" id="s-autoadvance" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Round Delay (ms)</div><div class="sg-desc">Pause between rounds</div></div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <input type="range" class="range-input" id="s-round-delay" min="300" max="2000" step="100" value="600" oninput="document.getElementById('round-delay-val').textContent=this.value+'ms';save()">
+                <span class="range-val" id="round-delay-val">600ms</span>
+              </div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Show Special Attacks</div><div class="sg-desc">Highlight combo skill detections</div></div>
+              <div class="toggle on" id="s-specials" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">HP Bar Animation</div><div class="sg-desc">Animate health bar changes</div></div>
+              <div class="toggle on" id="s-hpanimate" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+          </div>
+          <div class="settings-group">
+            <div class="sg-title">SCORING</div>
+            <div class="sg-row">
+              <div><div class="sg-label">Skills Weight</div></div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <input type="range" class="range-input" id="s-w-skills" min="10" max="40" step="5" value="25" oninput="document.getElementById('w-skills-val').textContent=this.value+'%';save()">
+                <span class="range-val" id="w-skills-val">25%</span>
+              </div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Experience Weight</div></div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <input type="range" class="range-input" id="s-w-exp" min="10" max="40" step="5" value="25" oninput="document.getElementById('w-exp-val').textContent=this.value+'%';save()">
+                <span class="range-val" id="w-exp-val">25%</span>
+              </div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Projects Weight</div></div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <input type="range" class="range-input" id="s-w-proj" min="10" max="40" step="5" value="20" oninput="document.getElementById('w-proj-val').textContent=this.value+'%';save()">
+                <span class="range-val" id="w-proj-val">20%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- API KEYS -->
+        <div class="settings-section" id="sec-api">
+          <div class="settings-group">
+            <div class="sg-title">ANTHROPIC API</div>
+            <div class="sg-row">
+              <div><div class="sg-label">API Key Status</div><div class="sg-desc">Required for AI battle analysis</div></div>
+              <span class="key-status key-set" id="api-key-status">✓ CONFIGURED</span>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Custom API Key</div><div class="sg-desc">Override default (stored locally only)</div></div>
+              <div class="api-key-row">
+                <input type="password" class="sg-input" id="s-api-key" placeholder="sk-ant-..." style="width:180px;">
+                <button class="demo-btn" onclick="testApiKey()">TEST</button>
+              </div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Model</div></div>
+              <select class="sg-select" id="s-model" onchange="save()">
+                <option value="claude-sonnet-4-20250514">Claude Sonnet 4 (Default)</option>
+                <option value="claude-opus-4-5">Claude Opus 4.5</option>
+                <option value="claude-haiku-4-5-20251001">Claude Haiku 4.5 (Fast)</option>
+              </select>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Max Tokens</div><div class="sg-desc">Response length limit</div></div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <input type="range" class="range-input" id="s-max-tokens" min="500" max="2000" step="100" value="1000" oninput="document.getElementById('max-tokens-val').textContent=this.value;save()">
+                <span class="range-val" id="max-tokens-val">1000</span>
+              </div>
+            </div>
+          </div>
+          <div class="settings-group">
+            <div class="sg-title">BACKEND API</div>
+            <div class="sg-row">
+              <div><div class="sg-label">Backend URL</div><div class="sg-desc">FastAPI server endpoint</div></div>
+              <input type="text" class="sg-input" id="s-backend-url" value="http://localhost:8000" onchange="save()">
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Use Backend</div><div class="sg-desc">Route API calls through FastAPI</div></div>
+              <div class="toggle" id="s-use-backend" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AUDIO -->
+        <div class="settings-section" id="sec-audio">
+          <div class="settings-group">
+            <div class="sg-title">SOUND ENGINE</div>
+            <div class="sg-row">
+              <div><div class="sg-label">Enable Sound</div><div class="sg-desc">Battle sound effects via Howler.js</div></div>
+              <div class="toggle" id="s-sound-enabled" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Master Volume</div></div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <input type="range" class="range-input" id="s-volume" min="0" max="100" step="5" value="60" oninput="document.getElementById('vol-val').textContent=this.value+'%';save()">
+                <span class="range-val" id="vol-val">60%</span>
+              </div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Battle Intro Sound</div></div>
+              <div class="toggle on" id="s-sound-intro" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Round Start Sound</div></div>
+              <div class="toggle on" id="s-sound-round" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Victory Sound</div></div>
+              <div class="toggle on" id="s-sound-victory" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Special Attack Sound</div></div>
+              <div class="toggle on" id="s-sound-special" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DATA -->
+        <div class="settings-section" id="sec-data">
+          <div class="settings-group">
+            <div class="sg-title">STORAGE</div>
+            <div class="sg-row">
+              <div><div class="sg-label">Save Battle History</div><div class="sg-desc">Store results in localStorage</div></div>
+              <div class="toggle on" id="s-save-history" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">History Limit</div><div class="sg-desc">Max battles to store locally</div></div>
+              <select class="sg-select" id="s-history-limit" onchange="save()">
+                <option value="20">20 battles</option>
+                <option value="50" selected>50 battles</option>
+                <option value="100">100 battles</option>
+                <option value="unlimited">Unlimited</option>
+              </select>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Storage Used</div></div>
+              <span class="key-status key-set" id="storage-used">Calculating...</span>
+            </div>
+          </div>
+          <div class="settings-group">
+            <div class="sg-title">EXPORT</div>
+            <div class="sg-row">
+              <div><div class="sg-label">Export Settings</div><div class="sg-desc">Download all settings as JSON</div></div>
+              <button class="export-btn" onclick="exportSettings()">📥 EXPORT</button>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Import Settings</div><div class="sg-desc">Load settings from JSON file</div></div>
+              <label style="cursor:pointer;">
+                <input type="file" accept=".json" onchange="importSettings(event)" style="display:none">
+                <span class="export-btn">📤 IMPORT</span>
+              </label>
+            </div>
+          </div>
+          <div class="settings-group danger-zone">
+            <div class="sg-title">DANGER ZONE</div>
+            <div class="sg-row">
+              <div><div class="sg-label">Clear Battle History</div><div class="sg-desc">Delete all stored battle results</div></div>
+              <button class="btn-danger" onclick="clearData('history')">CLEAR HISTORY</button>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Reset All Settings</div><div class="sg-desc">Restore all defaults</div></div>
+              <button class="btn-danger" onclick="clearData('settings')">RESET SETTINGS</button>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Wipe All Local Data</div><div class="sg-desc">Clear everything from localStorage</div></div>
+              <button class="btn-danger" onclick="clearData('all')">WIPE ALL DATA</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADVANCED -->
+        <div class="settings-section" id="sec-advanced">
+          <div class="settings-group">
+            <div class="sg-title">DEVELOPER OPTIONS</div>
+            <div class="sg-row">
+              <div><div class="sg-label">Debug Mode</div><div class="sg-desc">Show console logs and AI prompts</div></div>
+              <div class="toggle" id="s-debug" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Skip AI — Use Fallback</div><div class="sg-desc">Use deterministic fallback data (offline mode)</div></div>
+              <div class="toggle" id="s-fallback" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Resume Text Limit</div><div class="sg-desc">Chars sent to AI per resume</div></div>
+              <select class="sg-select" id="s-text-limit" onchange="save()">
+                <option value="1000">1,000 chars (fast)</option>
+                <option value="2000" selected>2,000 chars (default)</option>
+                <option value="4000">4,000 chars (detailed)</option>
+              </select>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Show Raw AI Response</div><div class="sg-desc">Display JSON output in console</div></div>
+              <div class="toggle" id="s-show-raw" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+          </div>
+          <div class="settings-group">
+            <div class="sg-title">PERFORMANCE</div>
+            <div class="sg-row">
+              <div><div class="sg-label">Lazy Load Analytics</div><div class="sg-desc">Load charts only when visible</div></div>
+              <div class="toggle on" id="s-lazy" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Cache AI Responses</div><div class="sg-desc">Store last result for same inputs</div></div>
+              <div class="toggle on" id="s-cache" onclick="this.classList.toggle('on');save()"></div>
+            </div>
+          </div>
+          <div class="settings-group">
+            <div class="sg-title">ABOUT</div>
+            <div class="sg-row">
+              <div><div class="sg-label">Version</div></div>
+              <span style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted);">v1.0.0</span>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">AI Model</div></div>
+              <span style="font-family:var(--font-mono);font-size:12px;color:var(--neon-cyan);">claude-sonnet-4</span>
+            </div>
+            <div class="sg-row">
+              <div><div class="sg-label">Build</div></div>
+              <span style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted);">2025 · Vanilla JS · No Framework</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end content area -->
+    </div><!-- end settings-layout -->
+  </div><!-- end settings-main -->
+
+  <!-- Save bar -->
+  <div class="save-bar">
+    <span class="save-status" id="save-status">All changes auto-saved</span>
+    <div style="display:flex;gap:8px;">
+      <button class="export-btn" onclick="resetAll()">↺ RESET ALL</button>
+      <button class="demo-btn" onclick="saveAll()">💾 SAVE ALL</button>
+    </div>
+  </div>
+
+  <footer class="site-footer" style="margin-bottom:0;">
+    <div class="footer-bottom" style="max-width:860px;margin:0 auto;">
+      <span>© 2025 Resume Kombat AI</span>
+      <span class="footer-sep">|</span>
+      <a href="about.html" class="footer-link">About</a>
+      <span class="footer-sep">|</span>
+      <a href="profile.html" class="footer-link">Profile</a>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/utils.js"></script>
+  <script>
+  const SETTINGS_KEY = 'rk_settings';
+
+  function showSection(name) {
+    document.querySelectorAll('.settings-nav-item').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.settings-section').forEach(el => el.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('sec-'+name)?.classList.add('active');
+  }
+
+  function collectSettings() {
+    const ids = ['s-scanlines','s-cursor','s-particles','s-reducemotion','s-compact','s-wide',
+                 's-autoadvance','s-specials','s-hpanimate','s-sound-enabled','s-sound-intro',
+                 's-sound-round','s-sound-victory','s-sound-special','s-save-history',
+                 's-use-backend','s-debug','s-fallback','s-lazy','s-cache','s-show-raw'];
+    const toggles = {};
+    ids.forEach(id => { const el = document.getElementById(id); if(el) toggles[id] = el.classList.contains('on'); });
+    return {
+      ...toggles,
+      'battle-mode': document.getElementById('s-battle-mode')?.value,
+      'model': document.getElementById('s-model')?.value,
+      'backend-url': document.getElementById('s-backend-url')?.value,
+      'history-limit': document.getElementById('s-history-limit')?.value,
+      'text-limit': document.getElementById('s-text-limit')?.value,
+      'round-delay': document.getElementById('s-round-delay')?.value,
+      'volume': document.getElementById('s-volume')?.value,
+      'max-tokens': document.getElementById('s-max-tokens')?.value,
+      'accent': document.querySelector('.color-swatch.selected')?.dataset.color || '#00f5ff',
+    };
+  }
+
+  function save() {
+    const settings = collectSettings();
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    const status = document.getElementById('save-status');
+    if (status) { status.textContent = '✓ Saved ' + new Date().toLocaleTimeString(); }
+    applySettings(settings);
+  }
+
+  function saveAll() { save(); if(typeof showToast === 'function') showToast('✓ All settings saved', 'success'); }
+  function resetAll() {
+    if (!confirm('Reset all settings to defaults?')) return;
+    localStorage.removeItem(SETTINGS_KEY);
+    location.reload();
+  }
+
+  function applySettings(s) {
+    // Scanlines
+    const sl = document.getElementById('scanlines-el');
+    if (sl) sl.style.display = s['s-scanlines'] === false ? 'none' : 'block';
+    // Cursor
+    const cg = document.getElementById('cursorGlow');
+    if (cg) cg.style.display = s['s-cursor'] === false ? 'none' : 'block';
+    // Reduced motion
+    if (s['s-reducemotion']) {
+      document.documentElement.style.setProperty('--transition','0.01s');
+      document.documentElement.style.setProperty('--transition-slow','0.01s');
+    }
+    // Accent color
+    if (s.accent) document.documentElement.style.setProperty('--neon-cyan', s.accent);
+    // Apply accent preview
+    const prev = document.getElementById('accent-preview');
+    if (prev && s.accent) { prev.style.color = s.accent; prev.style.borderColor = s.accent; }
+  }
+
+  function applyReducedMotion() {
+    const on = document.getElementById('s-reducemotion')?.classList.contains('on');
+    document.documentElement.style.setProperty('--transition', on ? '0.01s' : '0.25s cubic-bezier(0.4,0,0.2,1)');
+  }
+
+  function setAccent(el) {
+    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+    el.classList.add('selected');
+    const color = el.dataset.color;
+    document.documentElement.style.setProperty('--neon-cyan', color);
+    const prev = document.getElementById('accent-preview');
+    if (prev) { prev.style.color = color; prev.style.borderColor = color; }
+    save();
+  }
+
+  function clearData(type) {
+    const msgs = { history: 'Clear all battle history?', settings: 'Reset all settings?', all: 'Wipe ALL local data?' };
+    if (!confirm(msgs[type])) return;
+    if (type === 'history') localStorage.removeItem('rk_battle_history');
+    else if (type === 'settings') localStorage.removeItem(SETTINGS_KEY);
+    else { localStorage.clear(); }
+    if (typeof showToast === 'function') showToast('Data cleared', 'success');
+    location.reload();
+  }
+
+  function exportSettings() {
+    const s = collectSettings();
+    const blob = new Blob([JSON.stringify(s, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'rk_settings.json'; a.click();
+  }
+
+  function importSettings(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const s = JSON.parse(ev.target.result);
+        localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
+        if (typeof showToast === 'function') showToast('✓ Settings imported', 'success');
+        setTimeout(() => location.reload(), 800);
+      } catch { if (typeof showToast === 'function') showToast('Invalid settings file', 'error'); }
+    };
+    reader.readAsText(file);
+  }
+
+  async function testApiKey() {
+    const key = document.getElementById('s-api-key')?.value?.trim();
+    if (!key) { if(typeof showToast==='function') showToast('Enter an API key first', 'warning'); return; }
+    if(typeof showToast==='function') showToast('Testing API key...', 'info');
+    try {
+      const r = await fetch('https://api.anthropic.com/v1/messages', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01'},
+        body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:10,messages:[{role:'user',content:'ping'}]})
+      });
+      if (r.ok) { if(typeof showToast==='function') showToast('✓ API key valid!', 'success'); document.getElementById('api-key-status').textContent='✓ VALID'; }
+      else { if(typeof showToast==='function') showToast('Invalid API key', 'error'); }
+    } catch { if(typeof showToast==='function') showToast('Connection failed', 'error'); }
+  }
+
+  function calcStorageSize() {
+    let total = 0;
+    for (const key in localStorage) {
+      if (localStorage.hasOwnProperty(key)) total += (localStorage[key].length + key.length) * 2;
+    }
+    const el = document.getElementById('storage-used');
+    if (el) el.textContent = total < 1024 ? total + ' B' : total < 1048576 ? (total/1024).toFixed(1) + ' KB' : (total/1048576).toFixed(2) + ' MB';
+  }
+
+  function loadSavedSettings() {
+    try {
+      const s = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
+      Object.entries(s).forEach(([k, v]) => {
+        if (typeof v === 'boolean') {
+          const el = document.getElementById(k);
+          if (el?.classList.contains('toggle')) el.classList.toggle('on', v);
+        }
+      });
+      if (s['battle-mode']) document.getElementById('s-battle-mode').value = s['battle-mode'];
+      if (s['model']) document.getElementById('s-model').value = s['model'];
+      if (s['backend-url']) document.getElementById('s-backend-url').value = s['backend-url'];
+      if (s['history-limit']) document.getElementById('s-history-limit').value = s['history-limit'];
+      if (s['text-limit']) document.getElementById('s-text-limit').value = s['text-limit'];
+      if (s['round-delay']) { document.getElementById('s-round-delay').value = s['round-delay']; document.getElementById('round-delay-val').textContent = s['round-delay'] + 'ms'; }
+      if (s['volume']) { document.getElementById('s-volume').value = s['volume']; document.getElementById('vol-val').textContent = s['volume'] + '%'; }
+      if (s['max-tokens']) { document.getElementById('s-max-tokens').value = s['max-tokens']; document.getElementById('max-tokens-val').textContent = s['max-tokens']; }
+      applySettings(s);
+    } catch {}
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadSavedSettings();
+    calcStorageSize();
+  });
+  </script>
+</body>
+</html>

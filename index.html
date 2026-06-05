@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Kombat AI — The Ultimate Hiring Arena</title>
+  <link rel="stylesheet" href="css/main.css">`n    <link rel="stylesheet" href="css/animations.css">`n    <link rel="stylesheet" href="css/animations.css">`n    <link rel="stylesheet" href="css/animations.css">`n    <link rel="stylesheet" href="css/animations.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Scanline overlay -->
+  <div class="scanlines" aria-hidden="true"></div>
+  <!-- Cursor glow -->
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-rk">RK</span>
+        <span class="logo-text">RESUME<span class="logo-accent">KOMBAT</span></span>
+        <span class="logo-ai">AI</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link active">Home</a></li>
+        <li><a href="battle.html" class="nav-link">Battle</a></li>
+        <li><a href="tournament.html" class="nav-link">Tournament</a></li>
+        <li><a href="analytics.html" class="nav-link">Analytics</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+      </ul>
+      <a href="battle.html" class="nav-cta">
+        <span>ENTER ARENA</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </a>
+      <button class="nav-burger" id="navBurger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="navMobile">
+      <a href="index.html" class="mob-link">Home</a>
+      <a href="battle.html" class="mob-link">Battle</a>
+      <a href="tournament.html" class="mob-link">Tournament</a>
+      <a href="analytics.html" class="mob-link">Analytics</a>
+      <a href="about.html" class="mob-link">About</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-grid-bg" aria-hidden="true"></div>
+    <div class="hero-particles" id="heroParticles" aria-hidden="true"></div>
+    
+    <!-- Corner decorations -->
+    <div class="corner-tl" aria-hidden="true"></div>
+    <div class="corner-br" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        <span>AI-POWERED HIRING INTELLIGENCE</span>
+        <span class="eyebrow-dot"></span>
+      </div>
+
+      <div class="hero-vs-row">
+        <div class="hero-fighter fighter-a">
+          <div class="fighter-avatar fighter-avatar-a">A</div>
+          <div class="fighter-info">
+            <span class="fighter-label">CANDIDATE A</span>
+            <div class="fighter-bar">
+              <div class="fighter-bar-fill fill-a"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-center-block">
+          <div class="vs-flash">VS</div>
+          <div class="vs-lightning" aria-hidden="true">⚡</div>
+        </div>
+
+        <div class="hero-fighter fighter-b">
+          <div class="fighter-info fighter-info-right">
+            <span class="fighter-label">CANDIDATE B</span>
+            <div class="fighter-bar">
+              <div class="fighter-bar-fill fill-b"></div>
+            </div>
+          </div>
+          <div class="fighter-avatar fighter-avatar-b">B</div>
+        </div>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="title-resume">RESUME</span>
+        <span class="title-kombat">KOMBAT</span>
+        <span class="title-ai">AI</span>
+      </h1>
+      <p class="hero-tagline">Where Resumes Fight for the Job.</p>
+      <p class="hero-desc">
+        Upload two resumes. Let AI battle them across 6 rounds — Skills, Experience, Projects, 
+        Education, Certifications & ATS. Get recruiter-grade analysis with live commentary and 
+        a decisive winner.
+      </p>
+
+      <div class="hero-actions">
+        <a href="battle.html" class="btn-primary">
+          <span class="btn-glow"></span>
+          ⚔&nbsp; START THE BATTLE
+        </a>
+        <a href="#how-it-works" class="btn-ghost">HOW IT WORKS</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num">6</span>
+          <span class="stat-label">Battle Rounds</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">AI</span>
+          <span class="stat-label">Commentary</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Explainable</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">∞</span>
+          <span class="stat-label">Insights</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <span>SCROLL</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="how-section" id="how-it-works">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-eyebrow">THE PROCESS</div>
+        <h2 class="section-title">How The Battle Works</h2>
+        <p class="section-sub">Three steps from upload to insight — powered by Anthropic Claude AI</p>
+      </div>
+
+      <div class="steps-track">
+        <div class="steps-line" aria-hidden="true"></div>
+        <div class="step-card" data-step="01">
+          <div class="step-number">01</div>
+          <div class="step-icon">📤</div>
+          <h3 class="step-title">Upload Resumes</h3>
+          <p class="step-desc">Drop PDF, DOCX, or TXT files for both candidates. Optionally paste a job description to enable JD-Matching Mode with keyword and semantic analysis.</p>
+          <div class="step-tags">
+            <span class="stag">PDF</span>
+            <span class="stag">DOCX</span>
+            <span class="stag">TXT</span>
+            <span class="stag">JD Mode</span>
+          </div>
+        </div>
+        <div class="step-card" data-step="02">
+          <div class="step-number">02</div>
+          <div class="step-icon">🤖</div>
+          <h3 class="step-title">AI Battles It Out</h3>
+          <p class="step-desc">Claude AI parses every section, runs semantic analysis across 6 categories with weighted scoring. Special attack combos trigger for elite skill stacks.</p>
+          <div class="step-tags">
+            <span class="stag">Skills 25%</span>
+            <span class="stag">Experience 25%</span>
+            <span class="stag">Projects 20%</span>
+          </div>
+        </div>
+        <div class="step-card" data-step="03">
+          <div class="step-number">03</div>
+          <div class="step-icon">🏆</div>
+          <h3 class="step-title">Get Recruiter Intel</h3>
+          <p class="step-desc">Receive a winner verdict, radar analytics, ATS scores, missing skill gaps, a hire/no-hire recommendation, and a power-up plan for each candidate.</p>
+          <div class="step-tags">
+            <span class="stag">Radar Chart</span>
+            <span class="stag">ATS Score</span>
+            <span class="stag">Hire Rec</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURES ===== -->
+  <section class="features-section">
+    <div class="section-container">
+      <div class="section-header">
+        <div class="section-eyebrow">BATTLE SYSTEMS</div>
+        <h2 class="section-title">Everything In The Arena</h2>
+      </div>
+
+      <div class="features-grid">
+
+        <div class="feat-big">
+          <div class="feat-big-inner">
+            <div class="feat-tag">CORE ENGINE</div>
+            <h3 class="feat-title">6-Round Battle Arena</h3>
+            <p class="feat-desc">Real-time health bars drain as AI scores each round. Watch Skills Clash, Experience Duel, Project Warfare, Education Arena, Certification Strike, and the final ATS Showdown unfold with live animation and commentary.</p>
+            <div class="feat-rounds">
+              <div class="feat-round-item"><span class="rnd-num">R1</span> Skills Clash</div>
+              <div class="feat-round-item"><span class="rnd-num">R2</span> Experience Duel</div>
+              <div class="feat-round-item"><span class="rnd-num">R3</span> Project Warfare</div>
+              <div class="feat-round-item"><span class="rnd-num">R4</span> Education Arena</div>
+              <div class="feat-round-item"><span class="rnd-num">R5</span> Cert Strike</div>
+              <div class="feat-round-item"><span class="rnd-num">R6</span> ATS Showdown</div>
+            </div>
+          </div>
+          <div class="feat-big-visual" aria-hidden="true">
+            <div class="mini-arena">
+              <div class="mini-hp-row">
+                <div class="mini-hp cyan-hp" style="width:75%"></div>
+                <span class="mini-vs">⚡</span>
+                <div class="mini-hp magenta-hp" style="width:45%"></div>
+              </div>
+              <div class="mini-round active-round">ROUND 3 — PROJECT WARFARE</div>
+              <div class="mini-scores">
+                <span class="mini-score cyan-score">87</span>
+                <span class="mini-sep">VS</span>
+                <span class="mini-score magenta-score">62</span>
+              </div>
+              <div class="mini-bar">
+                <div class="mini-bar-a" style="width:47%"></div>
+                <div class="mini-bar-b" style="width:34%"></div>
+              </div>
+              <div class="mini-comment">"Candidate A deploys open-source arsenal — devastating combo strike!"</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feat-card-sm">
+          <div class="feat-icon-wrap">⚡</div>
+          <h3 class="feat-sm-title">Special Attack Combos</h3>
+          <p class="feat-sm-desc">Skill combos trigger epic specials: Cloud Strike, Full Stack Fury, AI Combo, Backend Blitz. Unique animations and bonus damage.</p>
+          <div class="combo-list">
+            <div class="combo-item"><span class="combo-name">☁ Cloud Strike</span><span class="combo-skills">AWS+K8s+Terraform</span></div>
+            <div class="combo-item"><span class="combo-name">🔥 Full Stack Fury</span><span class="combo-skills">React+Node+MongoDB</span></div>
+            <div class="combo-item"><span class="combo-name">🧠 AI Combo</span><span class="combo-skills">Python+TF+PyTorch</span></div>
+          </div>
+        </div>
+
+        <div class="feat-card-sm">
+          <div class="feat-icon-wrap">🎙</div>
+          <h3 class="feat-sm-title">Live AI Commentary</h3>
+          <p class="feat-sm-desc">Claude generates context-aware, game-style commentary for every round. Dynamic, never generic, always rooted in actual resume content.</p>
+          <div class="commentary-preview">
+            <div class="cp-line">💬 "Candidate A lands a devastating cloud computing uppercut..."</div>
+            <div class="cp-line">💬 "B counters with a production-grade project portfolio..."</div>
+          </div>
+        </div>
+
+        <div class="feat-card-sm">
+          <div class="feat-icon-wrap">📊</div>
+          <h3 class="feat-sm-title">Recruiter Dashboard</h3>
+          <p class="feat-sm-desc">Radar charts, ATS breakdown, skill overlap maps, JD match percentage, risk analysis, and a decisive hire/no-hire recommendation.</p>
+        </div>
+
+        <div class="feat-card-sm">
+          <div class="feat-icon-wrap">🏟</div>
+          <h3 class="feat-sm-title">Tournament Mode</h3>
+          <p class="feat-sm-desc">Upload 4, 8, or 16 resumes. Auto-generated knockout bracket. Watch the hiring champion emerge through an entire tournament.</p>
+          <a href="tournament.html" class="feat-link">View Tournament →</a>
+        </div>
+
+        <div class="feat-card-sm">
+          <div class="feat-icon-wrap">🎯</div>
+          <h3 class="feat-sm-title">JD Matching Mode</h3>
+          <p class="feat-sm-desc">Paste a job description to activate semantic similarity scoring, keyword match analysis, and targeted missing skill identification.</p>
+        </div>
+
+        <div class="feat-card-sm">
+          <div class="feat-icon-wrap">🔧</div>
+          <h3 class="feat-sm-title">Improvement Engine</h3>
+          <p class="feat-sm-desc">AI generates personalized power-up plans: missing technologies, ATS optimization tips, suggested projects, and cert recommendations.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SCORING ===== -->
+  <section class="scoring-section">
+    <div class="section-container">
+      <div class="scoring-inner">
+        <div class="scoring-left">
+          <div class="section-eyebrow">THE SYSTEM</div>
+          <h2 class="section-title">Weighted Battle Scoring</h2>
+          <p class="scoring-desc">Every score has reasoning. No black-box AI. Each category is weighted by real-world recruiter priorities — with explainable, context-aware output.</p>
+          <a href="battle.html" class="btn-primary" style="display:inline-flex;margin-top:24px">
+            <span class="btn-glow"></span>
+            ⚔&nbsp; BATTLE NOW
+          </a>
+        </div>
+        <div class="scoring-right">
+          <div class="score-donut-wrap">
+            <svg class="score-donut" viewBox="0 0 220 220" aria-label="Scoring breakdown">
+              <!-- Segments rendered via JS -->
+              <circle cx="110" cy="110" r="80" fill="none" stroke="rgba(0,245,255,0.05)" stroke-width="28"/>
+              <!-- Skills 25% -->
+              <circle cx="110" cy="110" r="80" fill="none" stroke="#00f5ff" stroke-width="28"
+                stroke-dasharray="125.66 376.99" stroke-dashoffset="0" opacity="0.85"/>
+              <!-- Experience 25% -->
+              <circle cx="110" cy="110" r="80" fill="none" stroke="#ff00ff" stroke-width="28"
+                stroke-dasharray="125.66 376.99" stroke-dashoffset="-125.66" opacity="0.75"/>
+              <!-- Projects 20% -->
+              <circle cx="110" cy="110" r="80" fill="none" stroke="#ff6600" stroke-width="28"
+                stroke-dasharray="100.53 376.99" stroke-dashoffset="-251.33" opacity="0.85"/>
+              <!-- Education 10% -->
+              <circle cx="110" cy="110" r="80" fill="none" stroke="#ffff00" stroke-width="28"
+                stroke-dasharray="50.27 376.99" stroke-dashoffset="-351.86" opacity="0.75"/>
+              <!-- Certs 10% -->
+              <circle cx="110" cy="110" r="80" fill="none" stroke="#00ff88" stroke-width="28"
+                stroke-dasharray="50.27 376.99" stroke-dashoffset="-402.12" opacity="0.75"/>
+              <!-- ATS 10% -->
+              <circle cx="110" cy="110" r="80" fill="none" stroke="#aa66ff" stroke-width="28"
+                stroke-dasharray="50.27 376.99" stroke-dashoffset="-452.39" opacity="0.75"/>
+              <text x="110" y="104" text-anchor="middle" fill="#e0e8ff" font-family="Orbitron,monospace" font-size="14" font-weight="700">TOTAL</text>
+              <text x="110" y="124" text-anchor="middle" fill="#00f5ff" font-family="Orbitron,monospace" font-size="22" font-weight="900">100</text>
+            </svg>
+            <div class="donut-legend">
+              <div class="dl-item"><span class="dl-dot" style="background:#00f5ff"></span><span class="dl-name">Skills</span><span class="dl-pct">25%</span></div>
+              <div class="dl-item"><span class="dl-dot" style="background:#ff00ff"></span><span class="dl-name">Experience</span><span class="dl-pct">25%</span></div>
+              <div class="dl-item"><span class="dl-dot" style="background:#ff6600"></span><span class="dl-name">Projects</span><span class="dl-pct">20%</span></div>
+              <div class="dl-item"><span class="dl-dot" style="background:#ffff00"></span><span class="dl-name">Education</span><span class="dl-pct">10%</span></div>
+              <div class="dl-item"><span class="dl-dot" style="background:#00ff88"></span><span class="dl-name">Certifications</span><span class="dl-pct">10%</span></div>
+              <div class="dl-item"><span class="dl-dot" style="background:#aa66ff"></span><span class="dl-name">ATS Quality</span><span class="dl-pct">10%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA BANNER ===== -->
+  <section class="cta-banner">
+    <div class="cta-inner">
+      <div class="cta-glow" aria-hidden="true"></div>
+      <h2 class="cta-title">Ready to Find the Best Candidate?</h2>
+      <p class="cta-sub">Upload two resumes. Get an AI verdict in under 60 seconds.</p>
+      <div class="cta-actions">
+        <a href="battle.html" class="btn-primary btn-xl">
+          <span class="btn-glow"></span>
+          ⚔&nbsp; START FREE BATTLE
+        </a>
+        <a href="tournament.html" class="btn-ghost">TOURNAMENT MODE →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="logo-rk">RK</span>
+          <span class="logo-text">RESUME<span class="logo-accent">KOMBAT</span> AI</span>
+        </div>
+        <p class="footer-desc">AI-powered resume battle platform for modern recruiters and job seekers.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <div class="footer-col-title">Product</div>
+          <a href="battle.html" class="footer-link">Battle Arena</a>
+          <a href="tournament.html" class="footer-link">Tournament</a>
+          <a href="analytics.html" class="footer-link">Analytics</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Info</div>
+          <a href="about.html" class="footer-link">About</a>
+          <a href="about.html#how" class="footer-link">How It Works</a>
+          <a href="about.html#tech" class="footer-link">Tech Stack</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Resume Kombat AI — Built with Claude AI</span>
+      <span class="footer-sep">|</span>
+      <span>Original IP. No copyrighted assets.</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+

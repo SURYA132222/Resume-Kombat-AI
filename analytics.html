@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#00f5ff">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics — Resume Kombat AI</title>
+  <link rel="stylesheet" href="css/main.css">`n    <link rel="stylesheet" href="css/animations.css">`n    <link rel="stylesheet" href="css/animations.css">`n    <link rel="stylesheet" href="css/animations.css">`n    <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    .analytics-hero{padding:120px 24px 60px;text-align:center;background:var(--bg-dark);border-bottom:1px solid var(--border-subtle);position:relative;overflow:hidden;}
+    .analytics-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(170,102,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(170,102,255,0.025) 1px,transparent 1px);background-size:32px 32px;}
+    .charts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:20px;margin-bottom:24px;}
+    .chart-box{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:28px;transition:border-color var(--transition);}
+    .chart-box:hover{border-color:var(--border-mid);}
+    .chart-box-title{font-family:var(--font-head);font-size:10px;letter-spacing:3px;color:var(--text-muted);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+    .chart-box-title::after{content:'';flex:1;height:1px;background:var(--border-subtle);}
+    .bar-chart{display:flex;flex-direction:column;gap:10px;}
+    .bc-row{display:flex;align-items:center;gap:10px;}
+    .bc-label{font-size:12px;color:var(--text-secondary);width:110px;flex-shrink:0;text-align:right;}
+    .bc-track{flex:1;height:8px;background:rgba(0,0,0,0.4);border-radius:4px;overflow:hidden;position:relative;}
+    .bc-fill{height:100%;border-radius:4px;transition:width 1.4s cubic-bezier(0.4,0,0.2,1);}
+    .bc-val{font-family:var(--font-mono);font-size:11px;width:32px;text-align:right;}
+    .legend-row{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap;}
+    .leg-item{display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:11px;color:var(--text-secondary);}
+    .leg-dot{width:10px;height:10px;border-radius:2px;}
+    .skill-overlap-vis{position:relative;height:160px;display:flex;align-items:center;justify-content:center;}
+    .circle-a,.circle-b{position:absolute;width:140px;height:140px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:10px;letter-spacing:1px;}
+    .circle-a{left:20px;background:rgba(0,245,255,0.1);border:2px solid rgba(0,245,255,0.4);color:var(--neon-cyan);}
+    .circle-b{right:20px;background:rgba(255,0,255,0.1);border:2px solid rgba(255,0,255,0.4);color:var(--neon-magenta);}
+    .circle-overlap{position:absolute;left:50%;transform:translateX(-50%);width:80px;height:140px;background:linear-gradient(90deg,rgba(0,245,255,0.08),rgba(255,0,255,0.08));display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:10px;color:var(--neon-green);text-align:center;}
+    .metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .metric-box{background:var(--bg-card2);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:16px;text-align:center;}
+    .metric-box-val{font-family:var(--font-head);font-size:28px;font-weight:900;margin-bottom:4px;}
+    .metric-box-label{font-size:11px;color:var(--text-muted);letter-spacing:1px;}
+    .timeline-bar{display:flex;flex-direction:column;gap:6px;}
+    .tl-item{display:flex;align-items:center;gap:10px;}
+    .tl-year{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);width:36px;}
+    .tl-track{flex:1;height:6px;background:rgba(0,0,0,0.4);border-radius:3px;overflow:hidden;}
+    .tl-fill{height:100%;border-radius:3px;}
+    .tl-label{font-size:11px;color:var(--text-secondary);width:100px;font-style:italic;}
+    .ats-breakdown{display:flex;flex-direction:column;gap:8px;}
+    .ats-row{display:flex;align-items:center;gap:8px;}
+    .ats-label{font-size:12px;color:var(--text-secondary);width:140px;}
+    .ats-pills{display:flex;gap:4px;flex:1;}
+    .ats-pill{flex:1;height:6px;border-radius:2px;}
+    .ats-score-a{font-family:var(--font-mono);font-size:11px;color:var(--neon-cyan);width:28px;text-align:right;}
+    .ats-score-b{font-family:var(--font-mono);font-size:11px;color:var(--neon-magenta);width:28px;}
+    .no-data-msg{text-align:center;padding:60px 24px;color:var(--text-muted);font-size:14px;line-height:1.8;}
+    .no-data-msg strong{display:block;font-family:var(--font-head);font-size:16px;color:var(--text-secondary);margin-bottom:12px;letter-spacing:2px;}
+    .radar-full{display:flex;justify-content:center;}
+    .kw-list{display:flex;flex-wrap:wrap;gap:6px;}
+    .kw-tag{font-family:var(--font-mono);font-size:11px;padding:4px 10px;border-radius:2px;border:1px solid;}
+    .kw-high{color:var(--neon-green);border-color:rgba(0,255,136,0.3);background:rgba(0,255,136,0.06);}
+    .kw-med{color:var(--neon-yellow);border-color:rgba(255,255,0,0.3);background:rgba(255,255,0,0.04);}
+    .kw-low{color:var(--neon-orange);border-color:rgba(255,102,0,0.3);background:rgba(255,102,0,0.04);}
+    .summary-panel{background:linear-gradient(135deg,rgba(0,245,255,0.05),rgba(255,0,255,0.05));border:1px solid var(--border-mid);border-radius:var(--radius-md);padding:28px;margin-bottom:24px;}
+    .sp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-top:16px;}
+    .sp-stat{text-align:center;}
+    .sp-val{font-family:var(--font-head);font-size:26px;font-weight:900;}
+    .sp-label{font-size:11px;color:var(--text-muted);letter-spacing:1px;margin-top:4px;}
+    .tab-row{display:flex;gap:4px;margin-bottom:24px;flex-wrap:wrap;}
+    .tab-btn{font-family:var(--font-head);font-size:10px;letter-spacing:2px;padding:8px 16px;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);color:var(--text-muted);cursor:pointer;transition:all var(--transition);}
+    .tab-btn:hover{color:var(--neon-cyan);border-color:var(--border-mid);}
+    .tab-btn.active{color:var(--neon-cyan);border-color:var(--neon-cyan);background:rgba(0,245,255,0.06);}
+    .tab-panel{display:none;}
+    .tab-panel.active{display:block;}
+  </style>
+</head>
+<body>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-rk">RK</span>
+        <span class="logo-text">RESUME<span class="logo-accent">KOMBAT</span></span>
+        <span class="logo-ai">AI</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="battle.html" class="nav-link">Battle</a></li>
+        <li><a href="tournament.html" class="nav-link">Tournament</a></li>
+        <li><a href="analytics.html" class="nav-link active">Analytics</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+      </ul>
+      <a href="battle.html" class="nav-cta"><span>ENTER ARENA</span></a>
+      <button class="nav-burger" id="navBurger"><span></span><span></span><span></span></button>
+    </div>
+    <div class="nav-mobile" id="navMobile">
+      <a href="index.html" class="mob-link">Home</a>
+      <a href="battle.html" class="mob-link">Battle</a>
+      <a href="tournament.html" class="mob-link">Tournament</a>
+      <a href="analytics.html" class="mob-link">Analytics</a>
+      <a href="about.html" class="mob-link">About</a>
+    </div>
+  </nav>
+
+  <div class="analytics-hero">
+    <div style="position:relative;z-index:1;">
+      <div class="section-eyebrow" style="margin-bottom:10px;">📊 ANALYTICS ENGINE</div>
+      <h1 class="section-title" style="margin-bottom:10px;">Deep Resume Intelligence</h1>
+      <p style="font-size:15px;color:var(--text-muted);max-width:520px;margin:0 auto;">
+        Radar charts · ATS breakdowns · Skill overlap maps · Keyword analysis · Career timeline · JD matching
+      </p>
+    </div>
+  </div>
+
+  <div class="analytics-main" id="analytics-main">
+
+    <!-- No data state -->
+    <div id="no-data-view">
+      <div class="no-data-msg">
+        <strong>NO BATTLE DATA FOUND</strong>
+        Run a battle first to see deep analytics here, or load demo data below.
+        <br><br>
+        <a href="battle.html" class="btn-primary" style="display:inline-flex;margin-bottom:16px;">
+          <span class="btn-glow"></span>⚔&nbsp; START A BATTLE
+        </a>
+        <br>
+        <button class="demo-btn" onclick="loadAnalyticsDemo()">⚡ LOAD DEMO ANALYTICS</button>
+      </div>
+    </div>
+
+    <!-- Analytics dashboard (hidden until data) -->
+    <div id="analytics-view" style="display:none;">
+
+      <!-- Summary panel -->
+      <div class="summary-panel">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+          <div>
+            <div class="section-eyebrow" style="margin-bottom:4px;">BATTLE SUMMARY</div>
+            <div style="font-family:var(--font-head);font-size:18px;color:var(--text-primary);" id="summary-names">A vs B</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="demo-btn" onclick="loadAnalyticsDemo()">↺ DEMO DATA</button>
+            <a href="battle.html" class="btn-ghost" style="font-size:10px;padding:8px 16px;">NEW BATTLE</a>
+          </div>
+        </div>
+        <div class="sp-grid" id="summary-stats"></div>
+      </div>
+
+      <!-- Tab navigation -->
+      <div class="tab-row">
+        <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
+        <button class="tab-btn" onclick="switchTab('skills')">Skills Map</button>
+        <button class="tab-btn" onclick="switchTab('ats')">ATS Breakdown</button>
+        <button class="tab-btn" onclick="switchTab('keywords')">Keywords</button>
+        <button class="tab-btn" onclick="switchTab('radar')">Radar</button>
+        <button class="tab-btn" onclick="switchTab('timeline')">Timeline</button>
+      </div>
+
+      <!-- OVERVIEW TAB -->
+      <div class="tab-panel active" id="tab-overview">
+        <div class="charts-grid">
+
+          <!-- Category Comparison bar chart -->
+          <div class="chart-box">
+            <div class="chart-box-title">Category Scores</div>
+            <div class="legend-row">
+              <div class="leg-item"><div class="leg-dot" style="background:var(--neon-cyan);"></div><span id="leg-a-name">Candidate A</span></div>
+              <div class="leg-item"><div class="leg-dot" style="background:var(--neon-magenta);"></div><span id="leg-b-name">Candidate B</span></div>
+            </div>
+            <div class="bar-chart" id="category-bars"></div>
+          </div>
+
+          <!-- Score donut -->
+          <div class="chart-box">
+            <div class="chart-box-title">Weighted Score Breakdown</div>
+            <div style="display:flex;justify-content:center;margin-bottom:16px;">
+              <svg id="score-donut-svg" viewBox="0 0 220 220" width="180" height="180" style="transform:rotate(-90deg)">
+                <circle cx="110" cy="110" r="75" fill="none" stroke="rgba(0,245,255,0.05)" stroke-width="30"/>
+              </svg>
+            </div>
+            <div id="donut-legend" class="legend-row" style="flex-direction:column;gap:6px;"></div>
+          </div>
+
+          <!-- Metric comparison -->
+          <div class="chart-box">
+            <div class="chart-box-title">Quick Metrics</div>
+            <div class="metric-grid" id="quick-metrics"></div>
+          </div>
+
+          <!-- Skill overlap Venn -->
+          <div class="chart-box">
+            <div class="chart-box-title">Skill Overlap</div>
+            <div class="skill-overlap-vis">
+              <div class="circle-a" id="venn-a">A<br><span id="venn-a-count" style="font-size:20px;font-weight:900;display:block;margin-top:4px;">0</span><span style="font-size:8px;">UNIQUE</span></div>
+              <div class="circle-overlap" id="venn-common">
+                <div style="text-align:center;">
+                  <div style="font-size:20px;font-weight:900;" id="venn-common-count">0</div>
+                  <div style="font-size:8px;">SHARED</div>
+                </div>
+              </div>
+              <div class="circle-b" id="venn-b">B<br><span id="venn-b-count" style="font-size:20px;font-weight:900;display:block;margin-top:4px;">0</span><span style="font-size:8px;">UNIQUE</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SKILLS MAP TAB -->
+      <div class="tab-panel" id="tab-skills">
+        <div class="charts-grid">
+          <div class="chart-box">
+            <div class="chart-box-title">Skills — <span style="color:var(--neon-cyan)" id="skill-a-name">A</span></div>
+            <div id="skills-a-list" class="tag-cloud"></div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-title">Skills — <span style="color:var(--neon-magenta)" id="skill-b-name">B</span></div>
+            <div id="skills-b-list" class="tag-cloud"></div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-title">Common Skills</div>
+            <div id="skills-common-list" class="tag-cloud"></div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-title">Skills Missing from Each</div>
+            <div style="margin-bottom:12px;">
+              <div style="font-family:var(--font-head);font-size:10px;letter-spacing:2px;color:var(--neon-cyan);margin-bottom:8px;" id="missing-a-label">A SHOULD ADD:</div>
+              <div id="missing-a-list" class="tag-cloud"></div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-head);font-size:10px;letter-spacing:2px;color:var(--neon-magenta);margin-bottom:8px;" id="missing-b-label">B SHOULD ADD:</div>
+              <div id="missing-b-list" class="tag-cloud"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ATS TAB -->
+      <div class="tab-panel" id="tab-ats">
+        <div class="charts-grid">
+          <div class="chart-box" style="grid-column:1/-1;">
+            <div class="chart-box-title">ATS Score Breakdown</div>
+            <div class="legend-row">
+              <div class="leg-item"><div class="leg-dot" style="background:var(--neon-cyan);"></div><span id="ats-a-leg">A</span></div>
+              <div class="leg-item"><div class="leg-dot" style="background:var(--neon-magenta);"></div><span id="ats-b-leg">B</span></div>
+            </div>
+            <div class="ats-breakdown" id="ats-breakdown"></div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-title">ATS Overall Score</div>
+            <div style="display:flex;gap:24px;justify-content:center;padding:20px 0;">
+              <div style="text-align:center;">
+                <div style="font-family:var(--font-head);font-size:48px;font-weight:900;color:var(--neon-cyan);" id="ats-score-a-big">0</div>
+                <div style="font-size:12px;color:var(--text-muted);" id="ats-name-a-label">CANDIDATE A</div>
+                <div id="ats-a-verdict" style="font-family:var(--font-head);font-size:10px;letter-spacing:1px;margin-top:6px;padding:3px 10px;border-radius:2px;display:inline-block;"></div>
+              </div>
+              <div style="width:1px;background:var(--border-subtle);"></div>
+              <div style="text-align:center;">
+                <div style="font-family:var(--font-head);font-size:48px;font-weight:900;color:var(--neon-magenta);" id="ats-score-b-big">0</div>
+                <div style="font-size:12px;color:var(--text-muted);" id="ats-name-b-label">CANDIDATE B</div>
+                <div id="ats-b-verdict" style="font-family:var(--font-head);font-size:10px;letter-spacing:1px;margin-top:6px;padding:3px 10px;border-radius:2px;display:inline-block;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-title">ATS Optimization Tips</div>
+            <div id="ats-tips" style="display:flex;flex-direction:column;gap:8px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KEYWORDS TAB -->
+      <div class="tab-panel" id="tab-keywords">
+        <div class="charts-grid">
+          <div class="chart-box" style="grid-column:1/-1;">
+            <div class="chart-box-title">Keyword Density Analysis</div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+              <div class="leg-item"><div class="leg-dot" style="background:var(--neon-green);"></div>High impact (matched)</div>
+              <div class="leg-item"><div class="leg-dot" style="background:var(--neon-yellow);"></div>Medium impact</div>
+              <div class="leg-item"><div class="leg-dot" style="background:var(--neon-orange);"></div>Missing / Low</div>
+            </div>
+            <div id="keyword-cloud" class="kw-list"></div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-title">Top Skills — <span style="color:var(--neon-cyan)" id="kw-a-name">A</span></div>
+            <div class="bar-chart" id="kw-bars-a"></div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-title">Top Skills — <span style="color:var(--neon-magenta)" id="kw-b-name">B</span></div>
+            <div class="bar-chart" id="kw-bars-b"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RADAR TAB -->
+      <div class="tab-panel" id="tab-radar">
+        <div class="charts-grid">
+          <div class="chart-box" style="grid-column:1/-1;">
+            <div class="chart-box-title">Full Radar Comparison</div>
+            <div class="radar-full">
+              <svg id="full-radar-svg" viewBox="0 0 500 400" style="width:100%;max-width:600px;height:auto;"></svg>
+            </div>
+            <div style="display:flex;gap:24px;justify-content:center;margin-top:12px;flex-wrap:wrap;">
+              <div class="leg-item"><div class="leg-dot" style="background:var(--neon-cyan);"></div><span id="radar-a-leg">A</span></div>
+              <div class="leg-item"><div class="leg-dot" style="background:var(--neon-magenta);"></div><span id="radar-b-leg">B</span></div>
+            </div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-title">Radar Scores — <span style="color:var(--neon-cyan)" id="radar-a-name">A</span></div>
+            <div id="radar-bars-a" class="bar-chart"></div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-title">Radar Scores — <span style="color:var(--neon-magenta)" id="radar-b-name">B</span></div>
+            <div id="radar-bars-b" class="bar-chart"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TIMELINE TAB -->
+      <div class="tab-panel" id="tab-timeline">
+        <div class="charts-grid">
+          <div class="chart-box">
+            <div class="chart-box-title">Career Progression — <span style="color:var(--neon-cyan)" id="tl-a-name">A</span></div>
+            <div class="timeline-bar" id="timeline-a"></div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-title">Career Progression — <span style="color:var(--neon-magenta)" id="tl-b-name">B</span></div>
+            <div class="timeline-bar" id="timeline-b"></div>
+          </div>
+          <div class="chart-box" style="grid-column:1/-1;">
+            <div class="chart-box-title">Experience Level Comparison</div>
+            <div id="exp-comparison" class="bar-chart"></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end analytics-view -->
+  </div><!-- end analytics-main -->
+
+  <script src="js/main.js"></script>
+  <script>
+  /* ---- TAB SYSTEM ---- */
+  function switchTab(name) {
+    document.querySelectorAll('.tab-btn').forEach((b,i) => {
+      const tabs = ['overview','skills','ats','keywords','radar','timeline'];
+      b.classList.toggle('active', tabs[i] === name);
+    });
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-'+name)?.classList.add('active');
+  }
+
+  /* ---- DEMO DATA ---- */
+  function loadAnalyticsDemo() {
+    const demo = {
+      nameA: 'ALICE CHEN', nameB: 'BOB MARTINEZ',
+      rounds: [
+        {name:'Skills Clash',scoreA:88,scoreB:62},{name:'Experience Duel',scoreA:82,scoreB:71},
+        {name:'Project Warfare',scoreA:90,scoreB:56},{name:'Education Arena',scoreA:82,scoreB:68},
+        {name:'Certification Strike',scoreA:78,scoreB:52},{name:'ATS Showdown',scoreA:91,scoreB:74}
+      ],
+      overallWinner:'A', totalScoreA:85, totalScoreB:64,
+      skillsA:['Python','TypeScript','Go','React','Django','FastAPI','AWS','GCP','Kubernetes','Docker','TensorFlow','PyTorch','PostgreSQL','Redis','Kafka'],
+      skillsB:['JavaScript','TypeScript','React','Vue','Node.js','Express','MongoDB','MySQL','Docker','GitHub Actions','PHP','Laravel'],
+      commonSkills:['TypeScript','React','Docker'],
+      uniqueSkillsA:['Python','Go','Django','FastAPI','AWS','GCP','Kubernetes','TensorFlow','PyTorch','PostgreSQL','Redis','Kafka'],
+      uniqueSkillsB:['JavaScript','Vue','Node.js','Express','MongoDB','MySQL','PHP','Laravel'],
+      missingSkillsA:['GraphQL','Rust'],
+      missingSkillsB:['Python','Cloud Platform','ML Frameworks','Kubernetes','PostgreSQL'],
+      radarA:{skills:88,experience:82,projects:90,education:82,certifications:78,ats:91},
+      radarB:{skills:62,experience:71,projects:56,education:68,certifications:52,ats:74},
+      atsScoreA:91, atsScoreB:74, jdMatchA:92, jdMatchB:45
+    };
+    window.RK = window.RK || {};
+    window.RK.battleData = demo;
+    renderAnalytics(demo);
+  }
+
+  /* ---- RENDER ALL CHARTS ---- */
+  function renderAnalytics(d) {
+    document.getElementById('no-data-view').style.display = 'none';
+    document.getElementById('analytics-view').style.display = 'block';
+
+    // Summary
+    document.getElementById('summary-names').textContent = d.nameA + ' vs ' + d.nameB;
+    document.getElementById('leg-a-name').textContent = d.nameA.split(' ')[0];
+    document.getElementById('leg-b-name').textContent = d.nameB.split(' ')[0];
+
+    const totalRoundsA = d.rounds.filter(r => r.scoreA > r.scoreB).length;
+    const totalRoundsB = d.rounds.filter(r => r.scoreB > r.scoreA).length;
+    document.getElementById('summary-stats').innerHTML = [
+      { val: d.totalScoreA || Math.round(d.rounds.reduce((s,r)=>s+r.scoreA,0)/d.rounds.length), label: d.nameA.split(' ')[0]+' Score', color: 'var(--neon-cyan)' },
+      { val: d.totalScoreB || Math.round(d.rounds.reduce((s,r)=>s+r.scoreB,0)/d.rounds.length), label: d.nameB.split(' ')[0]+' Score', color: 'var(--neon-magenta)' },
+      { val: totalRoundsA+'-'+totalRoundsB, label: 'Round Record', color: 'var(--neon-yellow)' },
+      { val: (d.skillsA||[]).length + (d.skillsB||[]).length, label: 'Total Skills Analyzed', color: 'var(--neon-green)' },
+      { val: d.atsScoreA+'%', label: d.nameA.split(' ')[0]+' ATS', color: 'var(--neon-cyan)' },
+      { val: d.atsScoreB+'%', label: d.nameB.split(' ')[0]+' ATS', color: 'var(--neon-magenta)' },
+    ].map(s => `<div class="sp-stat"><div class="sp-val" style="color:${s.color}">${s.val}</div><div class="sp-label">${s.label}</div></div>`).join('');
+
+    renderCategoryBars(d);
+    renderDonut(d);
+    renderQuickMetrics(d);
+    renderVenn(d);
+    renderSkillsMap(d);
+    renderATS(d);
+    renderKeywords(d);
+    renderRadar(d);
+    renderTimeline(d);
+  }
+
+  function renderCategoryBars(d) {
+    const el = document.getElementById('category-bars');
+    if (!el) return;
+    el.innerHTML = d.rounds.map(r => `
+      <div class="bc-row">
+        <div class="bc-label">${r.name.split(' ')[0]}</div>
+        <div class="bc-track">
+          <div class="bc-fill" style="width:${r.scoreA}%;background:rgba(0,245,255,0.7);"></div>
+        </div>
+        <div class="bc-val" style="color:var(--neon-cyan)">${r.scoreA}</div>
+      </div>
+      <div class="bc-row" style="margin-top:-6px;margin-bottom:4px;">
+        <div class="bc-label"></div>
+        <div class="bc-track">
+          <div class="bc-fill" style="width:${r.scoreB}%;background:rgba(255,0,255,0.7);"></div>
+        </div>
+        <div class="bc-val" style="color:var(--neon-magenta)">${r.scoreB}</div>
+      </div>`).join('');
+  }
+
+  function renderDonut(d) {
+    const cats = [
+      {name:'Skills',pct:25,color:'#00f5ff'},{name:'Experience',pct:25,color:'#ff00ff'},
+      {name:'Projects',pct:20,color:'#ff6600'},{name:'Education',pct:10,color:'#ffff00'},
+      {name:'Certs',pct:10,color:'#00ff88'},{name:'ATS',pct:10,color:'#aa66ff'}
+    ];
+    const svg = document.getElementById('score-donut-svg');
+    if (!svg) return;
+    const circ = 2 * Math.PI * 75;
+    let offset = 0;
+    let segs = cats.map(c => {
+      const len = (c.pct/100)*circ;
+      const seg = `<circle cx="110" cy="110" r="75" fill="none" stroke="${c.color}" stroke-width="28" stroke-dasharray="${len} ${circ}" stroke-dashoffset="${-offset}" opacity="0.8"/>`;
+      offset += len;
+      return seg;
+    }).join('');
+    svg.innerHTML = `<circle cx="110" cy="110" r="75" fill="none" stroke="rgba(0,245,255,0.05)" stroke-width="30"/>` + segs +
+      `<text x="110" y="105" text-anchor="middle" fill="#e0e8ff" font-family="Orbitron,monospace" font-size="12" font-weight="700" transform="rotate(90,110,110)">SCORE</text>
+       <text x="110" y="122" text-anchor="middle" fill="#00f5ff" font-family="Orbitron,monospace" font-size="18" font-weight="900" transform="rotate(90,110,110)">100</text>`;
+    document.getElementById('donut-legend').innerHTML = cats.map(c =>
+      `<div class="leg-item"><div class="leg-dot" style="background:${c.color}"></div><span>${c.name}</span><span style="margin-left:auto;font-family:var(--font-mono);color:var(--text-muted)">${c.pct}%</span></div>`
+    ).join('');
+  }
+
+  function renderQuickMetrics(d) {
+    const el = document.getElementById('quick-metrics');
+    if (!el) return;
+    const metrics = [
+      {val:d.atsScoreA,label:'ATS Score A',color:'var(--neon-cyan)'},
+      {val:d.atsScoreB,label:'ATS Score B',color:'var(--neon-magenta)'},
+      {val:(d.skillsA||[]).length,label:'Skills A',color:'var(--neon-cyan)'},
+      {val:(d.skillsB||[]).length,label:'Skills B',color:'var(--neon-magenta)'},
+      {val:(d.commonSkills||[]).length,label:'Shared Skills',color:'var(--neon-green)'},
+      {val:d.jdMatchA >= 0 ? d.jdMatchA+'%' : 'N/A',label:'JD Match A',color:'var(--neon-orange)'},
+    ];
+    el.innerHTML = metrics.map(m =>
+      `<div class="metric-box"><div class="metric-box-val" style="color:${m.color}">${m.val}</div><div class="metric-box-label">${m.label}</div></div>`
+    ).join('');
+  }
+
+  function renderVenn(d) {
+    document.getElementById('venn-a-count').textContent = (d.uniqueSkillsA||[]).length;
+    document.getElementById('venn-b-count').textContent = (d.uniqueSkillsB||[]).length;
+    document.getElementById('venn-common-count').textContent = (d.commonSkills||[]).length;
+  }
+
+  function renderSkillsMap(d) {
+    const aName = (d.nameA||'A').split(' ')[0];
+    const bName = (d.nameB||'B').split(' ')[0];
+    document.getElementById('skill-a-name').textContent = aName;
+    document.getElementById('skill-b-name').textContent = bName;
+    document.getElementById('missing-a-label').textContent = aName + ' SHOULD ADD:';
+    document.getElementById('missing-b-label').textContent = bName + ' SHOULD ADD:';
+    document.getElementById('skills-a-list').innerHTML = (d.skillsA||[]).map(s => `<span class="tc-tag tc-a">${s}</span>`).join('');
+    document.getElementById('skills-b-list').innerHTML = (d.skillsB||[]).map(s => `<span class="tc-tag tc-b">${s}</span>`).join('');
+    document.getElementById('skills-common-list').innerHTML = (d.commonSkills||[]).map(s => `<span class="tc-tag tc-common">${s}</span>`).join('');
+    document.getElementById('missing-a-list').innerHTML = (d.missingSkillsA||[]).map(s => `<span class="tc-tag tc-missing">${s}</span>`).join('') || '<span style="font-size:13px;color:var(--text-muted)">None detected 🎉</span>';
+    document.getElementById('missing-b-list').innerHTML = (d.missingSkillsB||[]).map(s => `<span class="tc-tag tc-missing">${s}</span>`).join('');
+  }
+
+  function renderATS(d) {
+    const aName = (d.nameA||'A').split(' ')[0];
+    const bName = (d.nameB||'B').split(' ')[0];
+    document.getElementById('ats-a-leg').textContent = aName;
+    document.getElementById('ats-b-leg').textContent = bName;
+    document.getElementById('ats-score-a-big').textContent = d.atsScoreA;
+    document.getElementById('ats-score-b-big').textContent = d.atsScoreB;
+    document.getElementById('ats-name-a-label').textContent = d.nameA;
+    document.getElementById('ats-name-b-label').textContent = d.nameB;
+
+    const getVerdict = (score) => {
+      if (score >= 85) return ['✓ EXCELLENT', 'color:var(--neon-green);border:1px solid rgba(0,255,136,0.3);background:rgba(0,255,136,0.06)'];
+      if (score >= 70) return ['◎ GOOD', 'color:var(--neon-yellow);border:1px solid rgba(255,255,0,0.3);background:rgba(255,255,0,0.04)'];
+      return ['⚠ NEEDS WORK', 'color:var(--neon-orange);border:1px solid rgba(255,102,0,0.3);background:rgba(255,102,0,0.06)'];
+    };
+    const [vA, sA] = getVerdict(d.atsScoreA);
+    const [vB, sB] = getVerdict(d.atsScoreB);
+    document.getElementById('ats-a-verdict').innerHTML = vA;
+    document.getElementById('ats-a-verdict').style.cssText = sA;
+    document.getElementById('ats-b-verdict').innerHTML = vB;
+    document.getElementById('ats-b-verdict').style.cssText = sB;
+
+    const atsCategories = [
+      {label:'Keyword Density', a: Math.min(100, d.atsScoreA + 3), b: Math.min(100, d.atsScoreB - 5)},
+      {label:'Format Quality', a: Math.min(100, d.atsScoreA - 2), b: Math.min(100, d.atsScoreB + 4)},
+      {label:'Section Structure', a: Math.min(100, d.atsScoreA - 5), b: Math.min(100, d.atsScoreB + 2)},
+      {label:'Skills Alignment', a: Math.min(100, d.atsScoreA + 6), b: Math.min(100, d.atsScoreB - 8)},
+      {label:'Contact Info', a: 95, b: 90},
+      {label:'Action Verbs', a: Math.min(100, d.atsScoreA - 3), b: Math.min(100, d.atsScoreB + 6)},
+    ];
+    document.getElementById('ats-breakdown').innerHTML = atsCategories.map(c => `
+      <div class="ats-row">
+        <div class="ats-label">${c.label}</div>
+        <div class="ats-pills">
+          <div class="ats-pill" style="background:rgba(0,245,255,0.7);width:${c.a}%;max-width:${c.a}%;min-width:4px;"></div>
+        </div>
+        <span class="ats-score-a">${c.a}</span>
+        <div class="ats-pills">
+          <div class="ats-pill" style="background:rgba(255,0,255,0.7);width:${c.b}%;max-width:${c.b}%;min-width:4px;"></div>
+        </div>
+        <span class="ats-score-b">${c.b}</span>
+      </div>`).join('');
+
+    const tipsEl = document.getElementById('ats-tips');
+    const atsTips = [
+      `${aName}: Already strong. Consider adding quantified metrics to every bullet.`,
+      `${bName}: Add more industry keywords. Use standard section headers (Experience, Skills, Education).`,
+      'Both: Avoid tables and graphics — most ATS parsers cannot read them.',
+      'Both: Mirror exact phrasing from job descriptions where truthful.',
+    ];
+    tipsEl.innerHTML = atsTips.map(t => `<div style="display:flex;gap:10px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px;font-size:13px;color:var(--text-secondary);border-left:2px solid rgba(0,245,255,0.3);"><span>▸</span><span>${t}</span></div>`).join('');
+  }
+
+  function renderKeywords(d) {
+    const aName = (d.nameA||'A').split(' ')[0];
+    const bName = (d.nameB||'B').split(' ')[0];
+    document.getElementById('kw-a-name').textContent = aName;
+    document.getElementById('kw-b-name').textContent = bName;
+
+    const allSkills = [...new Set([...(d.skillsA||[]), ...(d.skillsB||[])])];
+    document.getElementById('keyword-cloud').innerHTML = allSkills.map(s => {
+      const inA = (d.skillsA||[]).includes(s);
+      const inB = (d.skillsB||[]).includes(s);
+      const cls = (inA && inB) ? 'kw-high' : (inA || inB) ? 'kw-med' : 'kw-low';
+      return `<span class="kw-tag ${cls}">${s}</span>`;
+    }).join('');
+
+    const renderKWBars = (skills, elId, color) => {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      el.innerHTML = (skills||[]).slice(0,8).map((s,i) => {
+        const w = Math.max(30, 100 - i*10);
+        return `<div class="bc-row"><div class="bc-label" style="font-size:11px;">${s}</div><div class="bc-track"><div class="bc-fill" style="width:${w}%;background:${color};opacity:0.7;"></div></div><div class="bc-val" style="color:${color}">${w}</div></div>`;
+      }).join('');
+    };
+    renderKWBars(d.skillsA, 'kw-bars-a', 'var(--neon-cyan)');
+    renderKWBars(d.skillsB, 'kw-bars-b', 'var(--neon-magenta)');
+  }
+
+  function renderRadar(d) {
+    const aName = (d.nameA||'A').split(' ')[0];
+    const bName = (d.nameB||'B').split(' ')[0];
+    document.getElementById('radar-a-leg').textContent = aName;
+    document.getElementById('radar-b-leg').textContent = bName;
+    document.getElementById('radar-a-name').textContent = aName;
+    document.getElementById('radar-b-name').textContent = bName;
+
+    const cats = ['skills','experience','projects','education','certifications','ats'];
+    const labels = ['Skills','Experience','Projects','Education','Certifications','ATS Quality'];
+    const cx=250, cy=200, r=140;
+    const angles = cats.map((_,i) => ((i*60-90)*Math.PI/180));
+    const pt = (val,angle) => { const rv=val/100*r; return [cx+rv*Math.cos(angle), cy+rv*Math.sin(angle)]; };
+    const polyA = cats.map((c,i)=>pt(d.radarA[c]||0,angles[i]).join(',')).join(' ');
+    const polyB = cats.map((c,i)=>pt(d.radarB[c]||0,angles[i]).join(',')).join(' ');
+    const grids = [20,40,60,80,100].map(v=>{
+      const pts=angles.map(a=>pt(v,a).join(',')).join(' ');
+      return `<polygon points="${pts}" fill="none" stroke="rgba(0,245,255,0.07)" stroke-width="1"/>`;
+    }).join('');
+    const axes = angles.map(a=>`<line x1="${cx}" y1="${cy}" x2="${cx+r*Math.cos(a)}" y2="${cy+r*Math.sin(a)}" stroke="rgba(0,245,255,0.1)" stroke-width="1"/>`).join('');
+    const lbls = angles.map((a,i)=>{
+      const lx=cx+(r+22)*Math.cos(a), ly=cy+(r+22)*Math.sin(a);
+      return `<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" fill="#6677aa" font-family="Orbitron,monospace" font-size="10" letter-spacing="0.5">${labels[i]}</text>`;
+    }).join('');
+    const gvalA = cats.map((c,i)=>{
+      const [px,py]=pt(d.radarA[c]||0,angles[i]);
+      return `<circle cx="${px}" cy="${py}" r="4" fill="var(--neon-cyan)" opacity="0.9"/>`;
+    }).join('');
+    const gvalB = cats.map((c,i)=>{
+      const [px,py]=pt(d.radarB[c]||0,angles[i]);
+      return `<circle cx="${px}" cy="${py}" r="4" fill="var(--neon-magenta)" opacity="0.9"/>`;
+    }).join('');
+    document.getElementById('full-radar-svg').innerHTML = grids+axes+
+      `<polygon points="${polyA}" fill="rgba(0,245,255,0.12)" stroke="#00f5ff" stroke-width="2"/>` +
+      `<polygon points="${polyB}" fill="rgba(255,0,255,0.12)" stroke="#ff00ff" stroke-width="2"/>` +
+      gvalA+gvalB+lbls+`<circle cx="${cx}" cy="${cy}" r="3" fill="rgba(0,245,255,0.5)"/>`;
+
+    const renderRadarBars = (data, elId, color) => {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      el.innerHTML = cats.map((c,i)=>`
+        <div class="bc-row">
+          <div class="bc-label" style="font-size:11px;">${labels[i]}</div>
+          <div class="bc-track"><div class="bc-fill" style="width:${data[c]||0}%;background:${color};opacity:0.7;"></div></div>
+          <div class="bc-val" style="color:${color}">${data[c]||0}</div>
+        </div>`).join('');
+    };
+    renderRadarBars(d.radarA, 'radar-bars-a', 'var(--neon-cyan)');
+    renderRadarBars(d.radarB, 'radar-bars-b', 'var(--neon-magenta)');
+  }
+
+  function renderTimeline(d) {
+    const aName = (d.nameA||'A').split(' ')[0];
+    const bName = (d.nameB||'B').split(' ')[0];
+    document.getElementById('tl-a-name').textContent = aName;
+    document.getElementById('tl-b-name').textContent = bName;
+
+    const tlA = [
+      {year:'2019',label:'CS Degree / Career Start',w:30,color:'rgba(0,245,255,0.5)'},
+      {year:'2019',label:'First Engineering Role',w:50,color:'rgba(0,245,255,0.6)'},
+      {year:'2021',label:'Senior Engineer',w:75,color:'rgba(0,245,255,0.8)'},
+      {year:'2023',label:'Certifications & Patents',w:90,color:'rgba(0,245,255,1)'},
+      {year:'2024',label:'Current Role',w:95,color:'var(--neon-cyan)'},
+    ];
+    const tlB = [
+      {year:'2018',label:'IT Degree',w:25,color:'rgba(255,0,255,0.5)'},
+      {year:'2018',label:'Freelance Dev',w:35,color:'rgba(255,0,255,0.6)'},
+      {year:'2020',label:'Full Stack Dev',w:55,color:'rgba(255,0,255,0.7)'},
+      {year:'2023',label:'Meta Certificate',w:65,color:'rgba(255,0,255,0.85)'},
+      {year:'2024',label:'Current Role',w:70,color:'var(--neon-magenta)'},
+    ];
+
+    const renderTl = (items, elId) => {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      el.innerHTML = items.map(t=>`
+        <div class="tl-item">
+          <div class="tl-year">${t.year}</div>
+          <div class="tl-track"><div class="tl-fill" style="width:${t.w}%;background:${t.color};"></div></div>
+          <div class="tl-label">${t.label}</div>
+        </div>`).join('');
+    };
+    renderTl(tlA, 'timeline-a');
+    renderTl(tlB, 'timeline-b');
+
+    const expCats = ['Total Experience','YOE Seniority','Project Scale','Team Size','Domain Depth'];
+    const expA=[92,88,90,75,85], expB=[68,62,55,40,60];
+    document.getElementById('exp-comparison').innerHTML = expCats.map((c,i)=>`
+      <div class="bc-row">
+        <div class="bc-label">${c}</div>
+        <div class="bc-track" style="position:relative;">
+          <div class="bc-fill" style="width:${expA[i]}%;background:rgba(0,245,255,0.6);"></div>
+        </div>
+        <div class="bc-val" style="color:var(--neon-cyan)">${expA[i]}</div>
+      </div>
+      <div class="bc-row" style="margin-top:-5px;margin-bottom:6px;">
+        <div class="bc-label"></div>
+        <div class="bc-track">
+          <div class="bc-fill" style="width:${expB[i]}%;background:rgba(255,0,255,0.6);"></div>
+        </div>
+        <div class="bc-val" style="color:var(--neon-magenta)">${expB[i]}</div>
+      </div>`).join('');
+  }
+
+  /* ---- INIT ---- */
+  document.addEventListener('DOMContentLoaded', () => {
+    const data = window.RK?.battleData;
+    if (data) {
+      renderAnalytics(data);
+    }
+    // Auto-load demo for standalone view
+    loadAnalyticsDemo();
+  });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#00f5ff">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <link rel="icon" href="favicon.svg" type="image/svg+xml">`n    <link rel="manifest" href="manifest.json">`n    <meta name="theme-color" content="#00f5ff">`n    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Resume Kombat AI</title>
+  <link rel="stylesheet" href="css/main.css">`n    <link rel="stylesheet" href="css/animations.css">`n    <link rel="stylesheet" href="css/animations.css">`n    <link rel="stylesheet" href="css/animations.css">`n    <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    .error-page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;position:relative;overflow:hidden;}
+    .error-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,245,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.02) 1px,transparent 1px);background-size:48px 48px;}
+    .error-404{font-family:var(--font-head);font-size:clamp(80px,20vw,180px);font-weight:900;line-height:1;letter-spacing:8px;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-magenta));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:glitch404 3s infinite;}
+    @keyframes glitch404{0%,90%,100%{transform:translate(0,0);}92%{transform:translate(-3px,0);filter:drop-shadow(3px 0 var(--neon-magenta));}94%{transform:translate(3px,0);filter:drop-shadow(-3px 0 var(--neon-cyan));}96%{transform:translate(0,0);filter:none;}}
+    .error-title{font-family:var(--font-head);font-size:clamp(14px,3vw,24px);letter-spacing:4px;color:var(--text-muted);margin:12px 0 24px;}
+    .error-desc{font-size:16px;color:var(--text-secondary);max-width:400px;margin:0 auto 36px;line-height:1.6;}
+  </style>
+</head>
+<body>
+  <div class="scanlines"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-rk">RK</span>
+        <span class="logo-text">RESUME<span class="logo-accent">KOMBAT</span></span>
+        <span class="logo-ai">AI</span>
+      </a>
+    </div>
+  </nav>
+  <div class="error-page">
+    <div class="error-grid"></div>
+    <div style="position:relative;z-index:1;">
+      <div class="error-404">404</div>
+      <div class="error-title">PAGE NOT FOUND</div>
+      <p class="error-desc">This page got knocked out of the arena. Head back to the main battle.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="index.html" class="btn-primary"><span class="btn-glow"></span>🏠 HOME BASE</a>
+        <a href="battle.html" class="btn-ghost">⚔ BATTLE ARENA</a>
+      </div>
+    </div>
+  </div>
+  <script src="js/main.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+

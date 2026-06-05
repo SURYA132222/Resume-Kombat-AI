@@ -1,0 +1,105 @@
+version: "3.9"
+
+# ── Resume Kombat AI — Docker Compose ─────────────────────────────────────────
+# Usage:
+#   docker compose up -d                     # start all services
+#   docker compose up -d --build             # rebuild and start
+#   docker compose down                      # stop all
+#   docker compose logs -f api               # stream backend logs
+#   docker compose exec db psql -U rk_user -d resume_kombat
+
+services:
+
+  # ── PostgreSQL Database ──────────────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: rk_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       resume_kombat
+      POSTGRES_USER:     rk_user
+      POSTGRES_PASSWORD: rk_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/db/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rk_user -d resume_kombat"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - rk_net
+
+  # ── FastAPI Backend ──────────────────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+      target: production
+    container_name: rk_api
+    restart: unless-stopped
+    environment:
+      DATABASE_URL:      postgresql://rk_user:rk_password@db:5432/resume_kombat
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      ENVIRONMENT:       production
+      LOG_LEVEL:         info
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - rk_net
+    volumes:
+      - upload_data:/app/uploads
+
+  # ── Frontend (Nginx) ─────────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: rk_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - api
+    networks:
+      - rk_net
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+
+  # ── Redis (rate limiting & caching) ─────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: rk_redis
+    restart: unless-stopped
+    command: redis-server --maxmemory 128mb --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+    networks:
+      - rk_net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  postgres_data:
+    driver: local
+  upload_data:
+    driver: local
+
+networks:
+  rk_net:
+    driver: bridge
